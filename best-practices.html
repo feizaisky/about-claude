@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Claude Code 最佳实践</title>
+  <style>
+    :root { --bg:#f5f7fa; --panel:#ffffff; --panel2:#f0f3f8; --text:#1a2233; --muted:#6b7a99; --line:#dde3ee; --blue:#2563eb; --green:#16a34a; --orange:#d97706; --purple:#7c3aed; --cyan:#0891b2; --red:#dc2626; --shadow:0 2px 12px rgba(0,0,0,.08); --radius:14px; --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace; --sans:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6}
+    a{color:var(--blue);text-decoration:none;cursor:pointer} a:hover{text-decoration:underline}
+
+    /* Layout */
+    .layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh;max-width:1200px;margin:0 auto}
+
+    /* Sidebar */
+    .sidebar{background:var(--panel);border-right:1px solid var(--line);padding:24px 0;position:sticky;top:0;height:100vh;overflow-y:auto}    .sidebar-header{padding:0 20px 20px;border-bottom:1px solid var(--line)}
+    .sidebar-title{font-size:13px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
+    .sidebar-sub{font-size:12px;color:var(--muted)}
+    .nav{padding:16px 0}
+    .nav-item{display:block;padding:7px 20px;font-size:13px;color:var(--muted);cursor:pointer;transition:all .15s;border-left:2px solid transparent;line-height:1.4}
+    .nav-item:hover,.nav-item.active{color:var(--blue);background:rgba(37,99,235,.07);border-left-color:var(--blue)}
+    .nav-item .num{color:var(--blue);font-weight:700;margin-right:6px;font-size:12px}
+    .nav-divider{height:1px;background:var(--line);margin:8px 20px}
+
+    /* Main */
+    .main{padding:32px 40px;max-width:900px}
+
+    /* Hero */
+    .hero{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:28px 32px;margin-bottom:28px;box-shadow:var(--shadow)}
+    .hero h1{font-size:26px;font-weight:800;margin-bottom:12px;background:linear-gradient(90deg,var(--blue),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .hero-warn{background:rgba(220,38,38,.07);border:1px solid rgba(220,38,38,.2);border-radius:10px;padding:12px 16px;margin-bottom:12px}
+    .hero-warn strong{color:var(--red)}
+    .hero-note{background:rgba(37,99,235,.06);border:1px solid rgba(37,99,235,.15);border-radius:10px;padding:12px 16px;font-size:14px;color:var(--muted)}
+
+    /* Section */
+    .section{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:24px 28px;margin-bottom:20px;box-shadow:var(--shadow);scroll-margin-top:24px}
+    .section-header{display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+    .section-num{background:linear-gradient(135deg,var(--blue),var(--cyan));color:#0b1020;width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0}
+    .section-title{font-size:17px;font-weight:700}
+
+    /* Subsection */
+    h3{font-size:14px;font-weight:700;color:var(--cyan);margin:18px 0 10px;text-transform:uppercase;letter-spacing:.05em}
+
+    /* Prose */
+    p{font-size:14px;color:var(--text);margin-bottom:10px;line-height:1.7}
+    ul,ol{padding-left:20px;margin-bottom:12px}
+    li{font-size:14px;line-height:1.7;margin-bottom:4px}
+    strong{color:var(--orange);font-weight:600}
+
+    /* Blockquote */
+    blockquote{background:rgba(37,99,235,.05);border-left:3px solid var(--blue);border-radius:0 8px 8px 0;padding:12px 16px;margin:12px 0;font-size:13px;color:var(--muted)}
+    blockquote strong{color:var(--blue)}
+
+    /* Code */
+    code{font-family:var(--mono);font-size:12.5px;background:rgba(255,255,255,.07);border:1px solid var(--line);padding:2px 6px;border-radius:5px;color:var(--green)}
+    pre{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:16px;margin:12px 0;overflow-x:auto}
+    pre code{background:none;border:none;padding:0;font-size:12.5px;color:#0f4c81;line-height:1.6}
+    .comment{color:var(--muted)}
+
+    /* Table */
+    .table-wrap{overflow-x:auto;margin:12px 0}
+    table{width:100%;border-collapse:collapse;font-size:13px}
+    th{background:var(--panel2);color:var(--blue);font-weight:700;text-align:left;padding:9px 14px;border:1px solid var(--line);font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+    td{padding:9px 14px;border:1px solid var(--line);vertical-align:top;line-height:1.5}
+    tr:nth-child(even) td{background:rgba(255,255,255,.02)}
+    td strong{color:var(--orange)}
+    td code{font-size:12px}
+
+    /* Checklist */
+    .checklist{list-style:none;padding:0}
+    .checklist li{display:flex;align-items:flex-start;gap:10px;padding:8px 12px;border-radius:8px;margin-bottom:6px;font-size:13px;background:rgba(220,38,38,.04);border:1px solid rgba(220,38,38,.12);transition:all .2s}
+    .checklist li.checked{background:rgba(22,163,74,.06);border-color:rgba(22,163,74,.2);color:var(--muted);text-decoration:line-through}
+    .checklist input[type=checkbox]{accent-color:var(--green);width:15px;height:15px;flex-shrink:0;margin-top:2px;cursor:pointer}
+
+    /* Tag */
+    .tag{display:inline-block;padding:2px 8px;border-radius:5px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+    .tag-blue{background:rgba(90,169,255,.15);color:var(--blue);border:1px solid rgba(90,169,255,.3)}
+    .tag-green{background:rgba(85,209,135,.15);color:var(--green);border:1px solid rgba(85,209,135,.3)}
+    .tag-orange{background:rgba(255,180,84,.15);color:var(--orange);border:1px solid rgba(255,180,84,.3)}
+    .tag-red{background:rgba(255,107,107,.15);color:var(--red);border:1px solid rgba(255,107,107,.3)}
+
+    /* Tree */
+    .tree{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:16px;font-family:var(--mono);font-size:13px;line-height:2}
+    .tree .path-global{color:var(--orange)}
+    .tree .path-project{color:var(--green)}
+    .tree .path-dir{color:var(--cyan)}
+    .tree .comment{color:var(--muted);font-size:12px}
+
+    /* Scrollbar */
+    ::-webkit-scrollbar{width:6px;height:6px}
+    ::-webkit-scrollbar-track{background:transparent}
+    ::-webkit-scrollbar-thumb{background:var(--line);border-radius:3px}
+    ::-webkit-scrollbar-thumb:hover{background:#3a4a6a}
+
+    @media(max-width:768px){
+      .layout{grid-template-columns:1fr}
+      .sidebar{display:none}
+      .main{padding:20px 16px}
+    }
+  </style>
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- Sidebar -->
+  <nav class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-title">Claude Code</div>
+      <div class="sidebar-sub">最佳实践文档</div>
+    </div>
+    <div class="nav">
+      <a class="nav-item active" href="#" onclick="navTo(event,'hero');return false">概述</a>
+      <div class="nav-divider"></div>
+      <a class="nav-item" href="#" onclick="navTo(event,'s1');return false"><span class="num">01</span>CLAUDE.md 即是记忆</a>
+      <a class="nav-item" href="#" onclick="navTo(event,'s2');return false"><span class="num">02</span>提示词：准确优于啰嗦</a>
+      <a class="nav-item" href="#" onclick="navTo(event,'s3');return false"><span class="num">03</span>全局精简，项目专注</a>
+      <a class="nav-item" href="#" onclick="navTo(event,'s4');return false"><span class="num">04</span>Plan → Execute</a>
+      <a class="nav-item" href="#" onclick="navTo(event,'s5');return false"><span class="num">05</span>上下文管理</a>
+      <a class="nav-item" href="#" onclick="navTo(event,'s6');return false"><span class="num">06</span>迭代节奏</a>
+      <a class="nav-item" href="#" onclick="navTo(event,'s7');return false"><span class="num">07</span>权限模式</a>
+      <a class="nav-item" href="#" onclick="navTo(event,'s8');return false"><span class="num">08</span>Hooks 自动化</a>
+      <a class="nav-item" href="#" onclick="navTo(event,'s9');return false"><span class="num">09</span>版本控制集成</a>
+      <a class="nav-item" href="#" onclick="navTo(event,'s10');return false"><span class="num">10</span>安全边界</a>
+      <a class="nav-item" href="#" onclick="navTo(event,'s11');return false"><span class="num">11</span>子代理策略</a>
+      <a class="nav-item" href="#" onclick="navTo(event,'s12');return false"><span class="num">12</span>模型选择</a>
+      <div class="nav-divider"></div>
+      <a class="nav-item" href="#" onclick="navTo(event,'checklist');return false">反模式清单</a>
+    </div>
+  </nav>
+
+  <!-- Main -->
+  <main class="main">
+
+    <!-- Hero -->
+    <div class="hero" id="hero">
+      <h1>Claude Code 最佳实践</h1>
+      <div class="hero-warn">
+        <strong>⚠ 你的 AI Coding 效果不好，有可能是工具、技能、插件太多。</strong>
+      </div>
+      <div class="hero-note">
+        上下文窗口只有几百K，每个插件都在蚕食它。<strong style="-webkit-text-fill-color:var(--blue);color:var(--blue)">减少噪声是提升效率的第一原则。</strong>
+      </div>
+    </div>
+
+    <!-- 1. CLAUDE.md -->
+    <div class="section" id="s1">
+      <div class="section-header">
+        <div class="section-num">1</div>
+        <div class="section-title">CLAUDE.md 即是记忆，代码即是文档</div>
+      </div>
+
+      <h3>层级结构</h3>
+      <div class="tree">
+        <div><span class="path-global">~/.claude/CLAUDE.md</span> <span class="comment"># 全局规则：极简，只写跨项目通用的偏好（&lt; 50 行）</span></div>
+        <div><span class="path-project">~/project/CLAUDE.md</span> <span class="comment"># 项目规则：主要规则来源</span></div>
+        <div><span class="path-dir">~/project/src/CLAUDE.md</span> <span class="comment"># 目录规则：模块级补充（按需）</span></div>
+      </div>
+
+      <h3>核心原则</h3>
+      <ul>
+        <li><strong>不需要额外记忆插件</strong>。代码本身、注释、docs/、CLAUDE.md 已经是完整的上下文。</li>
+        <li>CLAUDE.md 写<strong>规则和约定</strong>，不写代码逻辑。逻辑读代码。</li>
+        <li>项目 CLAUDE.md 应包含：技术栈、代码风格、禁止行为、常用命令、架构约定。</li>
+        <li>全局 CLAUDE.md 只放真正跨项目的偏好（如语言偏好、输出风格），<strong>保持 &lt; 50 行</strong>。</li>
+      </ul>
+
+      <h3>好的范例：规则写进 CLAUDE.md，而非装成插件</h3>
+      <p><a href="https://github.com/forrestchang/andrej-karpathy-skills" target="_blank">andrej-karpathy-skills</a> 是这个理念的最佳示范——<strong>一个 CLAUDE.md 文件，零插件，解决 LLM 编码的核心陋习</strong>。</p>
+      <p>源自 Andrej Karpathy 的四条原则：</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th>原则</th><th>解决的问题</th></tr>
+          <tr><td><strong>编码前思考</strong></td><td>不假设、不隐藏困惑、暴露权衡取舍</td></tr>
+          <tr><td><strong>极简优先</strong></td><td>过度设计、臃肿抽象、不必要的配置化</td></tr>
+          <tr><td><strong>手术式修改</strong></td><td>改动扩散到无关代码、顺手"优化"旁边的代码</td></tr>
+          <tr><td><strong>目标驱动执行</strong></td><td>给成功标准而非步骤，让 Claude 自己验证循环</td></tr>
+        </table>
+      </div>
+      <pre><code><span class="comment"># 追加到现有项目 CLAUDE.md</span>
+curl https://raw.githubusercontent.com/forrestchang/andrej-karpathy-skills/main/CLAUDE.md >> CLAUDE.md</code></pre>
+      <blockquote><strong>关键洞察</strong>：好的行为约束放进 CLAUDE.md &gt; 装成 Plugin/Skill。<br>Plugin 占用上下文空间且跨项目生效；CLAUDE.md 按项目隔离，随 git 一起版本化。</blockquote>
+
+      <h3>项目 CLAUDE.md 模板</h3>
+      <pre><code><span class="comment"># 项目名</span>
+
+<span class="comment">## 技术栈</span>
+- 语言/框架版本
+- 包管理器
+
+<span class="comment">## 开发命令</span>
+- 启动：`npm dev`
+- 测试：`npm test`
+- 构建：`npm build`
+
+<span class="comment">## 代码约定</span>
+- 命名规范、文件结构
+- 禁止事项（如不用 any、不 mock DB）
+
+<span class="comment">## 架构说明</span>
+- 模块职责简述
+- 关键路径说明</code></pre>
+    </div>
+
+    <!-- 2. 提示词 -->
+    <div class="section" id="s2">
+      <div class="section-header">
+        <div class="section-num">2</div>
+        <div class="section-title">提示词：准确优于啰嗦</div>
+      </div>
+
+      <h3>好提示词的特征</h3>
+      <div class="table-wrap">
+        <table>
+          <tr><th>差</th><th>好</th></tr>
+          <tr><td>"优化这段代码"</td><td>"减少 <code>processOrders()</code> 的嵌套层级，保持逻辑不变"</td></tr>
+          <tr><td>"修复 bug"</td><td>"修复 <code>auth.ts:142</code> 的空指针，<code>user</code> 可能为 undefined"</td></tr>
+          <tr><td>"加个功能"</td><td>"在 <code>UserList</code> 组件加分页，每页 20 条，复用现有 <code>Pagination</code> 组件"</td></tr>
+        </table>
+      </div>
+
+      <h3>四条规则</h3>
+      <ol>
+        <li><strong>指定文件和行号</strong>，而不是描述症状</li>
+        <li><strong>说明约束条件</strong>：不改接口、不引入新依赖、保持现有测试通过</li>
+        <li><strong>给出验收标准</strong>：怎样算完成</li>
+        <li>一次请求<strong>只做一件事</strong>，复杂任务分步</li>
+      </ol>
+    </div>
+
+    <!-- 3. 规则管理 -->
+    <div class="section" id="s3">
+      <div class="section-header">
+        <div class="section-num">3</div>
+        <div class="section-title">规则管理：全局精简，项目专注</div>
+      </div>
+
+      <h3>三层职责</h3>
+      <div class="table-wrap">
+        <table>
+          <tr><th>层级</th><th>内容</th></tr>
+          <tr><td><span class="tag tag-orange">全局</span></td><td>语言偏好、输出风格等不依赖项目的内容</td></tr>
+          <tr><td><span class="tag tag-green">项目</span></td><td>技术栈约定、禁止行为、业务规范</td></tr>
+          <tr><td><span class="tag tag-blue">目录</span></td><td>模块特有约定（如 API 层不直接操作 DB）</td></tr>
+        </table>
+      </div>
+
+      <h3>MCP / Plugin / Skill / Agent 配置</h3>
+      <p>每一项扩展都会将自身的 tool definitions、system prompt 片段注入上下文，<strong>无论你用不用它，空间都被占掉了</strong>。</p>
+
+      <blockquote><strong>大忌：大杂烩式安装</strong><br>
+      <a href="https://github.com/affaan-m/everything-claude-code" target="_blank">everything-claude-code</a> 这类"全家桶"包，一次性装入几十个 MCP、Skill、Agent。<br>
+      <strong>克制安装</strong>，每新增一项都问自己：这个项目真的需要它吗？</blockquote>
+
+      <div class="table-wrap">
+        <table>
+          <tr><th>类型</th><th>全局</th><th>项目级</th></tr>
+          <tr><td><strong>MCP</strong></td><td>只留通用工具（文件系统、搜索）</td><td>按需：Figma（设计项目）、Playwright（UI 测试）</td></tr>
+          <tr><td><strong>Skill</strong></td><td>只留高频跨项目的（如 /commit）</td><td>按需：前端设计 Skill 只在前端项目装</td></tr>
+          <tr><td><strong>Agent</strong></td><td>不建议全局装自定义 Agent</td><td>专项任务用完即删</td></tr>
+          <tr><td><strong>Plugin</strong></td><td>最小化，每个都是上下文负担</td><td>优先项目级安装</td></tr>
+        </table>
+      </div>
+
+      <pre><code><span class="comment">// .claude/settings.json（项目级）</span>
+{
+  "mcpServers": {
+    <span class="comment">// 只声明本项目需要的</span>
+  },
+  "disabledMcpServers": [
+    "figma",       <span class="comment">// 纯后端项目不需要</span>
+    "playwright",  <span class="comment">// 非 UI 项目不需要</span>
+    "notebooklm"   <span class="comment">// 与本项目无关</span>
+  ]
+}</code></pre>
+    </div>
+
+    <!-- 4. Plan -->
+    <div class="section" id="s4">
+      <div class="section-header">
+        <div class="section-num">4</div>
+        <div class="section-title">Plan → Execute：先想清楚再动手</div>
+      </div>
+
+      <h3>工作流</h3>
+      <pre><code>1. 描述任务
+2. Claude 进入 Plan 模式，探索代码，给出方案
+3. 审查方案：文件范围、改动点、潜在风险
+4. 确认后执行
+5. 验证结果</code></pre>
+
+      <h3>何时强制 Plan</h3>
+      <ul>
+        <li>改动超过 3 个文件</li>
+        <li>涉及数据库 schema 变更</li>
+        <li>修改公共接口/API</li>
+        <li>重构或架构调整</li>
+      </ul>
+
+      <h3>触发方式</h3>
+      <ul>
+        <li>快捷键 <code>Shift+Tab</code> 切换 Plan/Execute 模式</li>
+        <li>提示词末尾加：<code>先分析再执行，列出改动文件和方案后等我确认</code></li>
+      </ul>
+      <blockquote>Plan 模式下 Claude <strong>不会执行任何写操作</strong>，只读代码、给方案。这是它的安全特性。</blockquote>
+    </div>
+
+    <!-- 5. 上下文 -->
+    <div class="section" id="s5">
+      <div class="section-header">
+        <div class="section-num">5</div>
+        <div class="section-title">上下文管理：减少噪声</div>
+      </div>
+
+      <h3>.claudeignore：从源头减噪</h3>
+      <pre><code><span class="comment"># .claudeignore</span>
+node_modules/
+dist/
+build/
+*.min.js
+*.lock
+coverage/
+.next/</code></pre>
+
+      <h3>上下文污染源</h3>
+      <div class="table-wrap">
+        <table>
+          <tr><th>来源</th><th>影响</th><th>对策</th></tr>
+          <tr><td>全局 MCP tool definitions</td><td>每个 MCP 几百 token</td><td>只启用必要的</td></tr>
+          <tr><td>冗长的 CLAUDE.md</td><td>每次都注入</td><td>精简到关键规则</td></tr>
+          <tr><td>过长的对话历史</td><td>稀释相关信息</td><td>任务完成后开新会话</td></tr>
+          <tr><td>无关文件被 Read</td><td>占用窗口</td><td>明确指定文件路径</td></tr>
+          <tr><td>大型 diff/日志</td><td>快速消耗上下文</td><td>只粘贴关键片段</td></tr>
+        </table>
+      </div>
+
+      <h3>实践建议</h3>
+      <ul>
+        <li><strong>一个任务一个会话</strong>，完成后开新对话，不要累积无关历史</li>
+        <li>贴代码时只贴<strong>相关函数</strong>，不贴整个文件</li>
+        <li>错误日志只贴<strong>关键错误行</strong>，不贴完整 stack trace</li>
+        <li>让 Claude 用 <code>Grep</code>/<code>Glob</code> 自己找文件，而不是把所有文件都 Read 进来</li>
+      </ul>
+
+      <h3>长会话拆分</h3>
+      <p>单次对话超过上下文窗口 60-70% 后，效果显著下降。</p>
+      <ul>
+        <li>用 <code>/compact</code> 主动压缩当前对话</li>
+        <li>大任务拆成多轮，每轮产出写入文件，下轮从文件继续</li>
+        <li>在 CLAUDE.md 记录"当前进度检查点"，新会话可直接衔接</li>
+      </ul>
+    </div>
+
+    <!-- 6. 迭代 -->
+    <div class="section" id="s6">
+      <div class="section-header">
+        <div class="section-num">6</div>
+        <div class="section-title">迭代节奏：小步快跑</div>
+      </div>
+
+      <ul>
+        <li>每次改动后<strong>立即验证</strong>（跑测试/刷新页面）</li>
+        <li>不要攒一大批改动一起验证</li>
+        <li>出错时<strong>先读错误</strong>，再决定是否重试</li>
+        <li>不要让 Claude 连续执行超过 5 步而不验证</li>
+      </ul>
+
+      <pre><code>改动 → 验证 → 改动 → 验证
+  ↑___________↑
+     最小循环</code></pre>
+    </div>
+
+    <!-- 7. 权限 -->
+    <div class="section" id="s7">
+      <div class="section-header">
+        <div class="section-num">7</div>
+        <div class="section-title">权限模式：安全与效率的平衡</div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <tr><th>模式</th><th>适用场景</th><th>风险</th></tr>
+          <tr><td><strong>默认（审批模式）</strong></td><td>日常开发，推荐</td><td><span class="tag tag-green">低</span>，每步确认</td></tr>
+          <tr><td><strong><code>--allowedTools</code> 精细授权</strong></td><td>熟悉的项目，高频操作</td><td><span class="tag tag-orange">中</span>，可控</td></tr>
+          <tr><td><strong><code>--dangerously-skip-permissions</code></strong></td><td>一次性脚本、沙盒环境</td><td><span class="tag tag-red">高</span>，无确认</td></tr>
+        </table>
+      </div>
+
+      <h3>推荐：精细授权</h3>
+      <pre><code><span class="comment"># 只放行读操作和 git，写操作仍需确认</span>
+claude --allowedTools "Bash(git *)" "Read" "Grep" "Glob"</code></pre>
+      <blockquote>Yolo 模式听起来很爽，但在真实项目上一次误操作的代价远高于多点几次确认。</blockquote>
+    </div>
+
+    <!-- 8. Hooks -->
+    <div class="section" id="s8">
+      <div class="section-header">
+        <div class="section-num">8</div>
+        <div class="section-title">Hooks：让自动化替你省上下文</div>
+      </div>
+
+      <p>在 <code>.claude/settings.json</code> 配置 hooks，减少"修格式"等无效来回：</p>
+      <pre><code>{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "command": "eslint --fix $CLAUDE_FILE_PATH"
+      }
+    ]
+  }
+}</code></pre>
+
+      <h3>典型场景</h3>
+      <ul>
+        <li><strong>PostToolUse</strong>：每次编辑后自动 lint/format，避免攒到最后才发现</li>
+        <li><strong>PreCommit</strong>：commit 前自动跑类型检查</li>
+        <li><strong>自定义校验</strong>：写入文件后检查是否符合项目规范</li>
+      </ul>
+      <blockquote>每次让 Claude 手动修格式都是浪费上下文。Hook 一劳永逸。</blockquote>
+    </div>
+
+    <!-- 9. 版本控制 -->
+    <div class="section" id="s9">
+      <div class="section-header">
+        <div class="section-num">9</div>
+        <div class="section-title">版本控制集成</div>
+      </div>
+
+      <ul>
+        <li>任何大改动前先 <code>git commit</code>，给 Claude 一个干净的起点</li>
+        <li>用 <code>git diff</code> 审查 Claude 的改动，再决定是否 commit</li>
+        <li>复杂任务用 worktree 隔离：<code>/worktree feature-xxx</code>，完成后合并</li>
+        <li>让 Claude 自动生成 commit message：<code>/commit</code></li>
+      </ul>
+    </div>
+
+    <!-- 10. 安全 -->
+    <div class="section" id="s10">
+      <div class="section-header">
+        <div class="section-num">10</div>
+        <div class="section-title">安全边界</div>
+      </div>
+
+      <ul>
+        <li><strong>永远不要</strong> 让 Claude 在没有确认的情况下 <code>force push</code>、<code>DROP TABLE</code>、<code>rm -rf</code></li>
+        <li>生产环境操作前明确说："这是生产环境，每步都要我确认"</li>
+        <li>敏感文件（<code>.env</code>、credentials）加入 <code>.gitignore</code>，不要让 Claude commit</li>
+      </ul>
+    </div>
+
+    <!-- 11. 子代理 -->
+    <div class="section" id="s11">
+      <div class="section-header">
+        <div class="section-num">11</div>
+        <div class="section-title">子代理（Subagent）策略</div>
+      </div>
+
+      <p>子代理在独立上下文中运行，结果摘要回传，<strong>不污染主上下文</strong>。</p>
+
+      <div class="table-wrap">
+        <table>
+          <tr><th>场景</th><th>方式</th></tr>
+          <tr><td>简单查找（找函数、找文件）</td><td>直接 Grep/Glob，不启子代理</td></tr>
+          <tr><td>中等复杂探索（理解一个模块）</td><td>Explore agent</td></tr>
+          <tr><td>多路并行调研</td><td>同时启多个子代理，各查各的</td></tr>
+          <tr><td>批量重构（改 20 个文件的同一模式）</td><td>子代理隔离执行，主会话汇总</td></tr>
+        </table>
+      </div>
+
+      <h3>原则</h3>
+      <ul>
+        <li>不要为简单操作启子代理——启动成本不值得</li>
+        <li>并行子代理用于<strong>独立且互不依赖</strong>的子任务</li>
+        <li>子代理可配置用较低成本模型（如 Haiku），省钱不占主上下文</li>
+      </ul>
+    </div>
+
+    <!-- 12. 模型选择 -->
+    <div class="section" id="s12">
+      <div class="section-header">
+        <div class="section-num">12</div>
+        <div class="section-title">模型选择策略</div>
+      </div>
+
+      <p>不同任务适配不同模型，别一把梭哈最贵的：</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th>模型</th><th>擅长</th><th>适用场景</th></tr>
+          <tr><td><strong>Opus</strong></td><td>复杂推理、架构设计、大范围重构</td><td>Plan 阶段、疑难 bug、跨模块设计</td></tr>
+          <tr><td><strong>Sonnet</strong></td><td>日常编码、平衡性价比</td><td>功能开发、代码审查、常规修复</td></tr>
+          <tr><td><strong>Haiku</strong></td><td>快速响应、简单任务</td><td>子代理调研、格式化、简单查询</td></tr>
+        </table>
+      </div>
+      <pre><code><span class="comment"># 日常开发用 Sonnet（默认）</span>
+claude --model sonnet
+
+<span class="comment"># 复杂设计切 Opus（会话内用 /model 切换）</span></code></pre>
+      <blockquote>用 Opus 来修 typo 是浪费；用 Haiku 来做架构设计是勉强。匹配任务复杂度。</blockquote>
+    </div>
+
+    <!-- Checklist -->
+    <div class="section" id="checklist">
+      <div class="section-header">
+        <div class="section-num" style="background:linear-gradient(135deg,var(--red),var(--orange))">✗</div>
+        <div class="section-title">反模式速查清单</div>
+      </div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px">勾选已避免的反模式：</p>
+      <ul class="checklist" id="cl">
+        <li><input type="checkbox" onchange="toggle(this)"> 全局 CLAUDE.md 超过 100 行</li>
+        <li><input type="checkbox" onchange="toggle(this)"> 启用了与当前项目无关的 MCP</li>
+        <li><input type="checkbox" onchange="toggle(this)"> 安装了大杂烩式全家桶插件</li>
+        <li><input type="checkbox" onchange="toggle(this)"> 同一会话处理多个不相关任务</li>
+        <li><input type="checkbox" onchange="toggle(this)"> 直接让 Claude 执行而不先 Plan</li>
+        <li><input type="checkbox" onchange="toggle(this)"> 把整个文件贴进提示词</li>
+        <li><input type="checkbox" onchange="toggle(this)"> 忽略错误继续让 Claude 重试</li>
+        <li><input type="checkbox" onchange="toggle(this)"> 让 Claude 在单次对话中改动超过 10 个文件</li>
+        <li><input type="checkbox" onchange="toggle(this)"> 在全局配置里放项目专用规则</li>
+        <li><input type="checkbox" onchange="toggle(this)"> 全程用 Opus 做简单任务</li>
+        <li><input type="checkbox" onchange="toggle(this)"> Yolo 模式用在真实项目上</li>
+        <li><input type="checkbox" onchange="toggle(this)"> 没配 .claudeignore，node_modules 被索引</li>
+        <li><input type="checkbox" onchange="toggle(this)"> 会话超长不 /compact，效果越来越差</li>
+      </ul>
+    </div>
+
+  </main>
+</div>
+
+<script>
+  let scrolling = false, scrollTimer
+
+  function navTo(e, id) {
+    const el = document.getElementById(id)
+    if (!el) return
+    el.scrollIntoView({behavior:'smooth', block:'start'})
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'))
+    e.currentTarget.classList.add('active')
+    scrolling = true
+    clearTimeout(scrollTimer)
+    scrollTimer = setTimeout(() => { scrolling = false }, 800)
+  }
+
+  function toggle(cb) {
+    cb.closest('li').classList.toggle('checked', cb.checked)
+  }
+
+  const sections = ['hero','s1','s2','s3','s4','s5','s6','s7','s8','s9','s10','s11','s12','checklist']
+  const navItems = document.querySelectorAll('.nav-item')
+  window.addEventListener('scroll', () => {
+    if (scrolling) return
+    let cur = 0
+    sections.forEach((id, i) => {
+      const el = document.getElementById(id)
+      if (el && el.getBoundingClientRect().top < 120) cur = i
+    })
+    navItems.forEach((n, i) => n.classList.toggle('active', i === cur))
+  }, {passive:true})
+</script>
+</body>
+</html>
