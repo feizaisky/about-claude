@@ -1,4 +1,4 @@
-# Claude Code 最佳实践
+# Claude Code 日常使用最佳实践
 
 > **你的 AI Coding 效果不好，有可能是工具、技能、插件太多。**
 
