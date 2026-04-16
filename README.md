@@ -1,18 +1,13 @@
-# Claude 请求响应可视化
+# About Claude
 
-一个用于可视化展示 Claude API 请求与响应的单页 HTML 工具。
-
-## 功能
-
-- 解析并可视化 Claude API 的请求/响应 JSON 数据
-- 展示对话时间线、Token 用量统计、工具调用详情
-- 支持多轮对话内容的结构化浏览
-- 纯前端实现，无需服务器，直接在浏览器中打开使用
-
-## 使用方法
-
-直接用浏览器打开 `index.html`，将 Claude API 的请求/响应 JSON 粘贴到输入框中即可可视化展示。
+关于 Claude 和 Claude Code 的工具与文档合集。
 
 ## 文件说明
 
-- `index.html` — 主程序文件
+- `index.html` — Claude API 请求响应可视化工具，解析并展示对话时间线、Token 用量、工具调用详情，纯前端，浏览器直接打开使用
+- `best-practices.html` — Claude Code 日常使用最佳实践，交互式 HTML 文档，含侧边目录导航和反模式清单
+- `claude-code-best-practices.md` — 最佳实践原始 Markdown 文档
+
+## 使用方法
+
+直接用浏览器打开对应 HTML 文件即可，无需服务器。
