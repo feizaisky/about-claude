@@ -429,22 +429,6 @@ Plan 模式：重构 <模块> 以 <目的>。
 
 > 新手建议：前一两周先把单线任务做顺了，再引入子代理。否则容易"拆了任务但又说不清每个子代理该干什么"，反而更乱。
 
-### 6.5 用 Hooks 省掉"修格式"的废话
-
-在 `.claude/settings.json` 配置，让它**每次写完文件自动 lint**：
-
-```jsonc
-{
-  "hooks": {
-    "PostToolUse": [
-      { "matcher": "Edit|Write", "command": "pnpm eslint --fix $CLAUDE_FILE_PATH" }
-    ]
-  }
-}
-```
-
-省下来的不是时间，是上下文。
-
 ---
 
 ## 7. 使用中必须注意（红线清单）
