@@ -1,0 +1,500 @@
+- generic [ref=e2]:
+  - navigation [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5]: Claude Code
+      - generic [ref=e6]: 最佳实践文档
+    - generic [ref=e7]:
+      - generic [ref=e8] [cursor=pointer]: 概述
+      - generic [ref=e10] [cursor=pointer]: 01CLAUDE.md 即是记忆
+      - generic [ref=e11] [cursor=pointer]: 02提示词：准确优于啰嗦
+      - generic [ref=e12] [cursor=pointer]: 03全局精简，项目专注
+      - generic [ref=e13] [cursor=pointer]: 04Plan → Execute
+      - generic [ref=e14] [cursor=pointer]: 05上下文管理
+      - generic [ref=e15] [cursor=pointer]: 06迭代节奏
+      - generic [ref=e16] [cursor=pointer]: 07权限模式
+      - generic [ref=e17] [cursor=pointer]: 08Hooks 自动化
+      - generic [ref=e18] [cursor=pointer]: 09版本控制集成
+      - generic [ref=e19] [cursor=pointer]: 10安全边界
+      - generic [ref=e20] [cursor=pointer]: 11子代理策略
+      - generic [ref=e21] [cursor=pointer]: 12模型选择
+      - generic [ref=e23] [cursor=pointer]: 反模式清单
+  - main [ref=e24]:
+    - generic [ref=e25]:
+      - heading "Claude Code 最佳实践" [level=1] [ref=e26]
+      - strong [ref=e28]: ⚠ 你的 AI Coding 效果不好，有可能是工具、技能、插件太多。
+      - generic [ref=e29]:
+        - text: 上下文窗口只有几百K，每个插件都在蚕食它。
+        - strong [ref=e30]: 减少噪声是提升效率的第一原则。
+    - generic [ref=e31]:
+      - generic [ref=e32]:
+        - generic [ref=e33]: "1"
+        - generic [ref=e34]: CLAUDE.md 即是记忆，代码即是文档
+      - heading "层级结构" [level=3] [ref=e35]
+      - generic [ref=e36]:
+        - generic [ref=e37]: "~/.claude/CLAUDE.md # 全局规则：极简，只写跨项目通用的偏好（< 50 行）"
+        - generic [ref=e38]: "~/project/CLAUDE.md # 项目规则：主要规则来源"
+        - generic [ref=e39]: "~/project/src/CLAUDE.md # 目录规则：模块级补充（按需）"
+      - heading "核心原则" [level=3] [ref=e40]
+      - list [ref=e41]:
+        - listitem [ref=e42]:
+          - strong [ref=e43]: 不需要额外记忆插件
+          - text: 。代码本身、注释、docs/、CLAUDE.md 已经是完整的上下文。
+        - listitem [ref=e44]:
+          - text: CLAUDE.md 写
+          - strong [ref=e45]: 规则和约定
+          - text: ，不写代码逻辑。逻辑读代码。
+        - listitem [ref=e46]: 项目 CLAUDE.md 应包含：技术栈、代码风格、禁止行为、常用命令、架构约定。
+        - listitem [ref=e47]:
+          - text: 全局 CLAUDE.md 只放真正跨项目的偏好（如语言偏好、输出风格），
+          - strong [ref=e48]: 保持 < 50 行
+          - text: 。
+      - heading "好的范例：规则写进 CLAUDE.md，而非装成插件" [level=3] [ref=e49]
+      - paragraph [ref=e50]:
+        - link "andrej-karpathy-skills" [ref=e51] [cursor=pointer]:
+          - /url: https://github.com/forrestchang/andrej-karpathy-skills
+        - text: 是这个理念的最佳示范——
+        - strong [ref=e52]: 一个 CLAUDE.md 文件，零插件，解决 LLM 编码的核心陋习
+        - text: 。
+      - paragraph [ref=e53]: 源自 Andrej Karpathy 的四条原则：
+      - table [ref=e55]:
+        - rowgroup [ref=e56]:
+          - row "原则 解决的问题" [ref=e57]:
+            - columnheader "原则" [ref=e58]
+            - columnheader "解决的问题" [ref=e59]
+          - row "编码前思考 不假设、不隐藏困惑、暴露权衡取舍" [ref=e60]:
+            - cell "编码前思考" [ref=e61]:
+              - strong [ref=e62]: 编码前思考
+            - cell "不假设、不隐藏困惑、暴露权衡取舍" [ref=e63]
+          - row "极简优先 过度设计、臃肿抽象、不必要的配置化" [ref=e64]:
+            - cell "极简优先" [ref=e65]:
+              - strong [ref=e66]: 极简优先
+            - cell "过度设计、臃肿抽象、不必要的配置化" [ref=e67]
+          - row "手术式修改 改动扩散到无关代码、顺手\"优化\"旁边的代码" [ref=e68]:
+            - cell "手术式修改" [ref=e69]:
+              - strong [ref=e70]: 手术式修改
+            - cell "改动扩散到无关代码、顺手\"优化\"旁边的代码" [ref=e71]
+          - row "目标驱动执行 给成功标准而非步骤，让 Claude 自己验证循环" [ref=e72]:
+            - cell "目标驱动执行" [ref=e73]:
+              - strong [ref=e74]: 目标驱动执行
+            - cell "给成功标准而非步骤，让 Claude 自己验证循环" [ref=e75]
+      - code [ref=e77]: "# 追加到现有项目 CLAUDE.md curl https://raw.githubusercontent.com/forrestchang/andrej-karpathy-skills/main/CLAUDE.md >> CLAUDE.md"
+      - blockquote [ref=e78]:
+        - strong [ref=e79]: 关键洞察
+        - text: ：好的行为约束放进 CLAUDE.md > 装成 Plugin/Skill。
+        - text: Plugin 占用上下文空间且跨项目生效；CLAUDE.md 按项目隔离，随 git 一起版本化。
+      - heading "项目 CLAUDE.md 模板" [level=3] [ref=e80]
+      - code [ref=e82]: "# 项目名 ## 技术栈 - 语言/框架版本 - 包管理器 ## 开发命令 - 启动：`npm dev` - 测试：`npm test` - 构建：`npm build` ## 代码约定 - 命名规范、文件结构 - 禁止事项（如不用 any、不 mock DB） ## 架构说明 - 模块职责简述 - 关键路径说明"
+    - generic [ref=e83]:
+      - generic [ref=e84]:
+        - generic [ref=e85]: "2"
+        - generic [ref=e86]: 提示词：准确优于啰嗦
+      - heading "好提示词的特征" [level=3] [ref=e87]
+      - table [ref=e89]:
+        - rowgroup [ref=e90]:
+          - row "差 好" [ref=e91]:
+            - columnheader "差" [ref=e92]
+            - columnheader "好" [ref=e93]
+          - row "\"优化这段代码\" \"减少 processOrders() 的嵌套层级，保持逻辑不变\"" [ref=e94]:
+            - cell "\"优化这段代码\"" [ref=e95]
+            - cell "\"减少 processOrders() 的嵌套层级，保持逻辑不变\"" [ref=e96]:
+              - text: "\"减少"
+              - code [ref=e97]: processOrders()
+              - text: 的嵌套层级，保持逻辑不变"
+          - row "\"修复 bug\" \"修复 auth.ts:142 的空指针，user 可能为 undefined\"" [ref=e98]:
+            - cell "\"修复 bug\"" [ref=e99]
+            - cell "\"修复 auth.ts:142 的空指针，user 可能为 undefined\"" [ref=e100]:
+              - text: "\"修复"
+              - code [ref=e101]: auth.ts:142
+              - text: 的空指针，
+              - code [ref=e102]: user
+              - text: 可能为 undefined"
+          - row "\"加个功能\" \"在 UserList 组件加分页，每页 20 条，复用现有 Pagination 组件\"" [ref=e103]:
+            - cell "\"加个功能\"" [ref=e104]
+            - cell "\"在 UserList 组件加分页，每页 20 条，复用现有 Pagination 组件\"" [ref=e105]:
+              - text: "\"在"
+              - code [ref=e106]: UserList
+              - text: 组件加分页，每页 20 条，复用现有
+              - code [ref=e107]: Pagination
+              - text: 组件"
+      - heading "四条规则" [level=3] [ref=e108]
+      - list [ref=e109]:
+        - listitem [ref=e110]:
+          - strong [ref=e111]: 指定文件和行号
+          - text: ，而不是描述症状
+        - listitem [ref=e112]:
+          - strong [ref=e113]: 说明约束条件
+          - text: ：不改接口、不引入新依赖、保持现有测试通过
+        - listitem [ref=e114]:
+          - strong [ref=e115]: 给出验收标准
+          - text: ：怎样算完成
+        - listitem [ref=e116]:
+          - text: 一次请求
+          - strong [ref=e117]: 只做一件事
+          - text: ，复杂任务分步
+    - generic [ref=e118]:
+      - generic [ref=e119]:
+        - generic [ref=e120]: "3"
+        - generic [ref=e121]: 规则管理：全局精简，项目专注
+      - heading "三层职责" [level=3] [ref=e122]
+      - table [ref=e124]:
+        - rowgroup [ref=e125]:
+          - row "层级 内容" [ref=e126]:
+            - columnheader "层级" [ref=e127]
+            - columnheader "内容" [ref=e128]
+          - row "全局 语言偏好、输出风格等不依赖项目的内容" [ref=e129]:
+            - cell "全局" [ref=e130]:
+              - generic [ref=e131]: 全局
+            - cell "语言偏好、输出风格等不依赖项目的内容" [ref=e132]
+          - row "项目 技术栈约定、禁止行为、业务规范" [ref=e133]:
+            - cell "项目" [ref=e134]:
+              - generic [ref=e135]: 项目
+            - cell "技术栈约定、禁止行为、业务规范" [ref=e136]
+          - row "目录 模块特有约定（如 API 层不直接操作 DB）" [ref=e137]:
+            - cell "目录" [ref=e138]:
+              - generic [ref=e139]: 目录
+            - cell "模块特有约定（如 API 层不直接操作 DB）" [ref=e140]
+      - heading "MCP / Plugin / Skill / Agent 配置" [level=3] [ref=e141]
+      - paragraph [ref=e142]:
+        - text: 每一项扩展都会将自身的 tool definitions、system prompt 片段注入上下文，
+        - strong [ref=e143]: 无论你用不用它，空间都被占掉了
+        - text: 。
+      - blockquote [ref=e144]:
+        - strong [ref=e145]: 大忌：大杂烩式安装
+        - link "everything-claude-code" [ref=e146] [cursor=pointer]:
+          - /url: https://github.com/affaan-m/everything-claude-code
+        - text: 这类"全家桶"包，一次性装入几十个 MCP、Skill、Agent。
+        - strong [ref=e147]: 克制安装
+        - text: ，每新增一项都问自己：这个项目真的需要它吗？
+      - table [ref=e149]:
+        - rowgroup [ref=e150]:
+          - row "类型 全局 项目级" [ref=e151]:
+            - columnheader "类型" [ref=e152]
+            - columnheader "全局" [ref=e153]
+            - columnheader "项目级" [ref=e154]
+          - row "MCP 只留通用工具（文件系统、搜索） 按需：Figma（设计项目）、Playwright（UI 测试）" [ref=e155]:
+            - cell "MCP" [ref=e156]:
+              - strong [ref=e157]: MCP
+            - cell "只留通用工具（文件系统、搜索）" [ref=e158]
+            - cell "按需：Figma（设计项目）、Playwright（UI 测试）" [ref=e159]
+          - row "Skill 只留高频跨项目的（如 /commit） 按需：前端设计 Skill 只在前端项目装" [ref=e160]:
+            - cell "Skill" [ref=e161]:
+              - strong [ref=e162]: Skill
+            - cell "只留高频跨项目的（如 /commit）" [ref=e163]
+            - cell "按需：前端设计 Skill 只在前端项目装" [ref=e164]
+          - row "Agent 不建议全局装自定义 Agent 专项任务用完即删" [ref=e165]:
+            - cell "Agent" [ref=e166]:
+              - strong [ref=e167]: Agent
+            - cell "不建议全局装自定义 Agent" [ref=e168]
+            - cell "专项任务用完即删" [ref=e169]
+          - row "Plugin 最小化，每个都是上下文负担 优先项目级安装" [ref=e170]:
+            - cell "Plugin" [ref=e171]:
+              - strong [ref=e172]: Plugin
+            - cell "最小化，每个都是上下文负担" [ref=e173]
+            - cell "优先项目级安装" [ref=e174]
+      - code [ref=e176]: "// .claude/settings.json（项目级） { \"mcpServers\": { // 只声明本项目需要的 }, \"disabledMcpServers\": [ \"figma\", // 纯后端项目不需要 \"playwright\", // 非 UI 项目不需要 \"notebooklm\" // 与本项目无关 ] }"
+    - generic [ref=e177]:
+      - generic [ref=e178]:
+        - generic [ref=e179]: "4"
+        - generic [ref=e180]: Plan → Execute：先想清楚再动手
+      - heading "工作流" [level=3] [ref=e181]
+      - code [ref=e183]: 1. 描述任务 2. Claude 进入 Plan 模式，探索代码，给出方案 3. 审查方案：文件范围、改动点、潜在风险 4. 确认后执行 5. 验证结果
+      - heading "何时强制 Plan" [level=3] [ref=e184]
+      - list [ref=e185]:
+        - listitem [ref=e186]: 改动超过 3 个文件
+        - listitem [ref=e187]: 涉及数据库 schema 变更
+        - listitem [ref=e188]: 修改公共接口/API
+        - listitem [ref=e189]: 重构或架构调整
+      - heading "触发方式" [level=3] [ref=e190]
+      - list [ref=e191]:
+        - listitem [ref=e192]:
+          - text: 快捷键
+          - code [ref=e193]: Shift+Tab
+          - text: 切换 Plan/Execute 模式
+        - listitem [ref=e194]:
+          - text: 提示词末尾加：
+          - code [ref=e195]: 先分析再执行，列出改动文件和方案后等我确认
+      - blockquote [ref=e196]:
+        - text: Plan 模式下 Claude
+        - strong [ref=e197]: 不会执行任何写操作
+        - text: ，只读代码、给方案。这是它的安全特性。
+    - generic [ref=e198]:
+      - generic [ref=e199]:
+        - generic [ref=e200]: "5"
+        - generic [ref=e201]: 上下文管理：减少噪声
+      - heading ".claudeignore：从源头减噪" [level=3] [ref=e202]
+      - code [ref=e204]: "# .claudeignore node_modules/ dist/ build/ *.min.js *.lock coverage/ .next/"
+      - heading "上下文污染源" [level=3] [ref=e205]
+      - table [ref=e207]:
+        - rowgroup [ref=e208]:
+          - row "来源 影响 对策" [ref=e209]:
+            - columnheader "来源" [ref=e210]
+            - columnheader "影响" [ref=e211]
+            - columnheader "对策" [ref=e212]
+          - row "全局 MCP tool definitions 每个 MCP 几百 token 只启用必要的" [ref=e213]:
+            - cell "全局 MCP tool definitions" [ref=e214]
+            - cell "每个 MCP 几百 token" [ref=e215]
+            - cell "只启用必要的" [ref=e216]
+          - row "冗长的 CLAUDE.md 每次都注入 精简到关键规则" [ref=e217]:
+            - cell "冗长的 CLAUDE.md" [ref=e218]
+            - cell "每次都注入" [ref=e219]
+            - cell "精简到关键规则" [ref=e220]
+          - row "过长的对话历史 稀释相关信息 任务完成后开新会话" [ref=e221]:
+            - cell "过长的对话历史" [ref=e222]
+            - cell "稀释相关信息" [ref=e223]
+            - cell "任务完成后开新会话" [ref=e224]
+          - row "无关文件被 Read 占用窗口 明确指定文件路径" [ref=e225]:
+            - cell "无关文件被 Read" [ref=e226]
+            - cell "占用窗口" [ref=e227]
+            - cell "明确指定文件路径" [ref=e228]
+          - row "大型 diff/日志 快速消耗上下文 只粘贴关键片段" [ref=e229]:
+            - cell "大型 diff/日志" [ref=e230]
+            - cell "快速消耗上下文" [ref=e231]
+            - cell "只粘贴关键片段" [ref=e232]
+      - heading "实践建议" [level=3] [ref=e233]
+      - list [ref=e234]:
+        - listitem [ref=e235]:
+          - strong [ref=e236]: 一个任务一个会话
+          - text: ，完成后开新对话，不要累积无关历史
+        - listitem [ref=e237]:
+          - text: 贴代码时只贴
+          - strong [ref=e238]: 相关函数
+          - text: ，不贴整个文件
+        - listitem [ref=e239]:
+          - text: 错误日志只贴
+          - strong [ref=e240]: 关键错误行
+          - text: ，不贴完整 stack trace
+        - listitem [ref=e241]:
+          - text: 让 Claude 用
+          - code [ref=e242]: Grep
+          - text: /
+          - code [ref=e243]: Glob
+          - text: 自己找文件，而不是把所有文件都 Read 进来
+      - heading "长会话拆分" [level=3] [ref=e244]
+      - paragraph [ref=e245]: 单次对话超过上下文窗口 60-70% 后，效果显著下降。
+      - list [ref=e246]:
+        - listitem [ref=e247]:
+          - text: 用
+          - code [ref=e248]: /compact
+          - text: 主动压缩当前对话
+        - listitem [ref=e249]: 大任务拆成多轮，每轮产出写入文件，下轮从文件继续
+        - listitem [ref=e250]: 在 CLAUDE.md 记录"当前进度检查点"，新会话可直接衔接
+    - generic [ref=e251]:
+      - generic [ref=e252]:
+        - generic [ref=e253]: "6"
+        - generic [ref=e254]: 迭代节奏：小步快跑
+      - list [ref=e255]:
+        - listitem [ref=e256]:
+          - text: 每次改动后
+          - strong [ref=e257]: 立即验证
+          - text: （跑测试/刷新页面）
+        - listitem [ref=e258]: 不要攒一大批改动一起验证
+        - listitem [ref=e259]:
+          - text: 出错时
+          - strong [ref=e260]: 先读错误
+          - text: ，再决定是否重试
+        - listitem [ref=e261]: 不要让 Claude 连续执行超过 5 步而不验证
+      - code [ref=e263]: 改动 → 验证 → 改动 → 验证 ↑___________↑ 最小循环
+    - generic [ref=e264]:
+      - generic [ref=e265]:
+        - generic [ref=e266]: "7"
+        - generic [ref=e267]: 权限模式：安全与效率的平衡
+      - table [ref=e269]:
+        - rowgroup [ref=e270]:
+          - row "模式 适用场景 风险" [ref=e271]:
+            - columnheader "模式" [ref=e272]
+            - columnheader "适用场景" [ref=e273]
+            - columnheader "风险" [ref=e274]
+          - row "默认（审批模式） 日常开发，推荐 低 ，每步确认" [ref=e275]:
+            - cell "默认（审批模式）" [ref=e276]:
+              - strong [ref=e277]: 默认（审批模式）
+            - cell "日常开发，推荐" [ref=e278]
+            - cell "低 ，每步确认" [ref=e279]:
+              - generic [ref=e280]: 低
+              - text: ，每步确认
+          - row "--allowedTools 精细授权 熟悉的项目，高频操作 中 ，可控" [ref=e281]:
+            - cell "--allowedTools 精细授权" [ref=e282]:
+              - strong [ref=e283]:
+                - code [ref=e284]: "--allowedTools"
+                - text: 精细授权
+            - cell "熟悉的项目，高频操作" [ref=e285]
+            - cell "中 ，可控" [ref=e286]:
+              - generic [ref=e287]: 中
+              - text: ，可控
+          - row "--dangerously-skip-permissions 一次性脚本、沙盒环境 高 ，无确认" [ref=e288]:
+            - cell "--dangerously-skip-permissions" [ref=e289]:
+              - strong [ref=e290]:
+                - code [ref=e291]: "--dangerously-skip-permissions"
+            - cell "一次性脚本、沙盒环境" [ref=e292]
+            - cell "高 ，无确认" [ref=e293]:
+              - generic [ref=e294]: 高
+              - text: ，无确认
+      - heading "推荐：精细授权" [level=3] [ref=e295]
+      - code [ref=e297]: "# 只放行读操作和 git，写操作仍需确认 claude --allowedTools \"Bash(git *)\" \"Read\" \"Grep\" \"Glob\""
+      - blockquote [ref=e298]: Yolo 模式听起来很爽，但在真实项目上一次误操作的代价远高于多点几次确认。
+    - generic [ref=e299]:
+      - generic [ref=e300]:
+        - generic [ref=e301]: "8"
+        - generic [ref=e302]: Hooks：让自动化替你省上下文
+      - paragraph [ref=e303]:
+        - text: 在
+        - code [ref=e304]: .claude/settings.json
+        - text: 配置 hooks，减少"修格式"等无效来回：
+      - code [ref=e306]: "{ \"hooks\": { \"PostToolUse\": [ { \"matcher\": \"Edit|Write\", \"command\": \"eslint --fix $CLAUDE_FILE_PATH\" } ] } }"
+      - heading "典型场景" [level=3] [ref=e307]
+      - list [ref=e308]:
+        - listitem [ref=e309]:
+          - strong [ref=e310]: PostToolUse
+          - text: ：每次编辑后自动 lint/format，避免攒到最后才发现
+        - listitem [ref=e311]:
+          - strong [ref=e312]: PreCommit
+          - text: ：commit 前自动跑类型检查
+        - listitem [ref=e313]:
+          - strong [ref=e314]: 自定义校验
+          - text: ：写入文件后检查是否符合项目规范
+      - blockquote [ref=e315]: 每次让 Claude 手动修格式都是浪费上下文。Hook 一劳永逸。
+    - generic [ref=e316]:
+      - generic [ref=e317]:
+        - generic [ref=e318]: "9"
+        - generic [ref=e319]: 版本控制集成
+      - list [ref=e320]:
+        - listitem [ref=e321]:
+          - text: 任何大改动前先
+          - code [ref=e322]: git commit
+          - text: ，给 Claude 一个干净的起点
+        - listitem [ref=e323]:
+          - text: 用
+          - code [ref=e324]: git diff
+          - text: 审查 Claude 的改动，再决定是否 commit
+        - listitem [ref=e325]:
+          - text: 复杂任务用 worktree 隔离：
+          - code [ref=e326]: /worktree feature-xxx
+          - text: ，完成后合并
+        - listitem [ref=e327]:
+          - text: 让 Claude 自动生成 commit message：
+          - code [ref=e328]: /commit
+    - generic [ref=e329]:
+      - generic [ref=e330]:
+        - generic [ref=e331]: "10"
+        - generic [ref=e332]: 安全边界
+      - list [ref=e333]:
+        - listitem [ref=e334]:
+          - strong [ref=e335]: 永远不要
+          - text: 让 Claude 在没有确认的情况下
+          - code [ref=e336]: force push
+          - text: 、
+          - code [ref=e337]: DROP TABLE
+          - text: 、
+          - code [ref=e338]: rm -rf
+        - listitem [ref=e339]: 生产环境操作前明确说："这是生产环境，每步都要我确认"
+        - listitem [ref=e340]:
+          - text: 敏感文件（
+          - code [ref=e341]: .env
+          - text: 、credentials）加入
+          - code [ref=e342]: .gitignore
+          - text: ，不要让 Claude commit
+    - generic [ref=e343]:
+      - generic [ref=e344]:
+        - generic [ref=e345]: "11"
+        - generic [ref=e346]: 子代理（Subagent）策略
+      - paragraph [ref=e347]:
+        - text: 子代理在独立上下文中运行，结果摘要回传，
+        - strong [ref=e348]: 不污染主上下文
+        - text: 。
+      - table [ref=e350]:
+        - rowgroup [ref=e351]:
+          - row "场景 方式" [ref=e352]:
+            - columnheader "场景" [ref=e353]
+            - columnheader "方式" [ref=e354]
+          - row "简单查找（找函数、找文件） 直接 Grep/Glob，不启子代理" [ref=e355]:
+            - cell "简单查找（找函数、找文件）" [ref=e356]
+            - cell "直接 Grep/Glob，不启子代理" [ref=e357]
+          - row "中等复杂探索（理解一个模块） Explore agent" [ref=e358]:
+            - cell "中等复杂探索（理解一个模块）" [ref=e359]
+            - cell "Explore agent" [ref=e360]
+          - row "多路并行调研 同时启多个子代理，各查各的" [ref=e361]:
+            - cell "多路并行调研" [ref=e362]
+            - cell "同时启多个子代理，各查各的" [ref=e363]
+          - row "批量重构（改 20 个文件的同一模式） 子代理隔离执行，主会话汇总" [ref=e364]:
+            - cell "批量重构（改 20 个文件的同一模式）" [ref=e365]
+            - cell "子代理隔离执行，主会话汇总" [ref=e366]
+      - heading "原则" [level=3] [ref=e367]
+      - list [ref=e368]:
+        - listitem [ref=e369]: 不要为简单操作启子代理——启动成本不值得
+        - listitem [ref=e370]:
+          - text: 并行子代理用于
+          - strong [ref=e371]: 独立且互不依赖
+          - text: 的子任务
+        - listitem [ref=e372]: 子代理可配置用较低成本模型（如 Haiku），省钱不占主上下文
+    - generic [ref=e373]:
+      - generic [ref=e374]:
+        - generic [ref=e375]: "12"
+        - generic [ref=e376]: 模型选择策略
+      - paragraph [ref=e377]: 不同任务适配不同模型，别一把梭哈最贵的：
+      - table [ref=e379]:
+        - rowgroup [ref=e380]:
+          - row "模型 擅长 适用场景" [ref=e381]:
+            - columnheader "模型" [ref=e382]
+            - columnheader "擅长" [ref=e383]
+            - columnheader "适用场景" [ref=e384]
+          - row "Opus 复杂推理、架构设计、大范围重构 Plan 阶段、疑难 bug、跨模块设计" [ref=e385]:
+            - cell "Opus" [ref=e386]:
+              - strong [ref=e387]: Opus
+            - cell "复杂推理、架构设计、大范围重构" [ref=e388]
+            - cell "Plan 阶段、疑难 bug、跨模块设计" [ref=e389]
+          - row "Sonnet 日常编码、平衡性价比 功能开发、代码审查、常规修复" [ref=e390]:
+            - cell "Sonnet" [ref=e391]:
+              - strong [ref=e392]: Sonnet
+            - cell "日常编码、平衡性价比" [ref=e393]
+            - cell "功能开发、代码审查、常规修复" [ref=e394]
+          - row "Haiku 快速响应、简单任务 子代理调研、格式化、简单查询" [ref=e395]:
+            - cell "Haiku" [ref=e396]:
+              - strong [ref=e397]: Haiku
+            - cell "快速响应、简单任务" [ref=e398]
+            - cell "子代理调研、格式化、简单查询" [ref=e399]
+      - code [ref=e401]: "# 日常开发用 Sonnet（默认） claude --model sonnet # 复杂设计切 Opus（会话内用 /model 切换）"
+      - blockquote [ref=e402]: 用 Opus 来修 typo 是浪费；用 Haiku 来做架构设计是勉强。匹配任务复杂度。
+    - generic [ref=e403]:
+      - generic [ref=e404]:
+        - generic [ref=e405]: ✗
+        - generic [ref=e406]: 反模式速查清单
+      - paragraph [ref=e407]: 勾选已避免的反模式：
+      - list [ref=e408]:
+        - listitem [ref=e409]:
+          - checkbox [ref=e410] [cursor=pointer]
+          - text: 全局 CLAUDE.md 超过 100 行
+        - listitem [ref=e411]:
+          - checkbox [ref=e412] [cursor=pointer]
+          - text: 启用了与当前项目无关的 MCP
+        - listitem [ref=e413]:
+          - checkbox [ref=e414] [cursor=pointer]
+          - text: 安装了大杂烩式全家桶插件
+        - listitem [ref=e415]:
+          - checkbox [ref=e416] [cursor=pointer]
+          - text: 同一会话处理多个不相关任务
+        - listitem [ref=e417]:
+          - checkbox [ref=e418] [cursor=pointer]
+          - text: 直接让 Claude 执行而不先 Plan
+        - listitem [ref=e419]:
+          - checkbox [ref=e420] [cursor=pointer]
+          - text: 把整个文件贴进提示词
+        - listitem [ref=e421]:
+          - checkbox [ref=e422] [cursor=pointer]
+          - text: 忽略错误继续让 Claude 重试
+        - listitem [ref=e423]:
+          - checkbox [ref=e424] [cursor=pointer]
+          - text: 让 Claude 在单次对话中改动超过 10 个文件
+        - listitem [ref=e425]:
+          - checkbox [ref=e426] [cursor=pointer]
+          - text: 在全局配置里放项目专用规则
+        - listitem [ref=e427]:
+          - checkbox [ref=e428] [cursor=pointer]
+          - text: 全程用 Opus 做简单任务
+        - listitem [ref=e429]:
+          - checkbox [ref=e430] [cursor=pointer]
+          - text: Yolo 模式用在真实项目上
+        - listitem [ref=e431]:
+          - checkbox [ref=e432] [cursor=pointer]
+          - text: 没配 .claudeignore，node_modules 被索引
+        - listitem [ref=e433]:
+          - checkbox [ref=e434] [cursor=pointer]
+          - text: 会话超长不 /compact，效果越来越差

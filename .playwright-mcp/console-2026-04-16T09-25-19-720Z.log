@@ -1,0 +1,2 @@
+[      47ms] [ERROR] Failed to load resource: the server responded with a status of 404 (File not found) @ http://localhost:8765/opt/code/about-claude/best-practices.html:0
+[      64ms] [ERROR] Failed to load resource: the server responded with a status of 404 (File not found) @ http://localhost:8765/favicon.ico:0

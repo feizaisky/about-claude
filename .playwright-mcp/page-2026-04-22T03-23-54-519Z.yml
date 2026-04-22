@@ -1,0 +1,1055 @@
+- generic [ref=e2]:
+  - navigation [ref=e3]:
+    - link "← About Claude" [ref=e4] [cursor=pointer]:
+      - /url: ../index.html
+    - generic [ref=e5]: 目录
+    - list [ref=e6]:
+      - listitem [ref=e7]:
+        - link "目录" [ref=e8] [cursor=pointer]:
+          - /url: "#目录"
+      - listitem [ref=e9]:
+        - link "0. 它是什么，能做什么" [ref=e10] [cursor=pointer]:
+          - /url: "#0-它是什么能做什么"
+      - listitem [ref=e11]:
+        - link "1. 起步：安装与启动" [ref=e12] [cursor=pointer]:
+          - /url: "#1-起步安装与启动"
+      - listitem [ref=e13]:
+        - link "2. 开工前要准备什么（提前规划清单）" [ref=e14] [cursor=pointer]:
+          - /url: "#2-开工前要准备什么提前规划清单"
+      - listitem [ref=e15]:
+        - link "3. 基础操作速查" [ref=e16] [cursor=pointer]:
+          - /url: "#3-基础操作速查"
+      - listitem [ref=e17]:
+        - link "4. 怎么提需求（提示词模板库）" [ref=e18] [cursor=pointer]:
+          - /url: "#4-怎么提需求提示词模板库"
+      - listitem [ref=e19]:
+        - link "5. 常见工作流（照抄即可）" [ref=e20] [cursor=pointer]:
+          - /url: "#5-常见工作流照抄即可"
+      - listitem [ref=e21]:
+        - link "6. 怎么用高效（5 个提速技巧）" [ref=e22] [cursor=pointer]:
+          - /url: "#6-怎么用高效5-个提速技巧"
+      - listitem [ref=e23]:
+        - link "7. 使用中必须注意（红线清单）" [ref=e24] [cursor=pointer]:
+          - /url: "#7-使用中必须注意红线清单"
+      - listitem [ref=e25]:
+        - link "8. 新手常见翻车 & 自救" [ref=e26] [cursor=pointer]:
+          - /url: "#8-新手常见翻车-自救"
+      - listitem [ref=e27]:
+        - link "9. 一页纸速查卡" [ref=e28] [cursor=pointer]:
+          - /url: "#9-一页纸速查卡"
+      - listitem [ref=e29]:
+        - link "10. 下一步" [ref=e30] [cursor=pointer]:
+          - /url: "#10-下一步"
+  - main [ref=e31]:
+    - article [ref=e32]:
+      - heading "Claude Code 新手速查手册" [level=1] [ref=e33]
+      - blockquote [ref=e34]:
+        - paragraph [ref=e35]:
+          - text: 面向第一次用 Claude Code、或用过但没形成手感的人。
+          - text: 目标：
+          - strong [ref=e36]: 5 分钟跑起来、30 分钟上手、一周养成好习惯
+          - text: 。
+        - paragraph [ref=e37]:
+          - text: 进阶与效率优化请看配套文档：
+          - link "claude-code-best-practices.md" [ref=e38] [cursor=pointer]:
+            - /url: ./best-practices.html
+            - code [ref=e39]: claude-code-best-practices.md
+      - heading "目录" [level=2] [ref=e40]
+      - list [ref=e41]:
+        - listitem [ref=e42]:
+          - link "0. 它是什么，能做什么" [ref=e43] [cursor=pointer]:
+            - /url: "#0-%E5%AE%83%E6%98%AF%E4%BB%80%E4%B9%88%E8%83%BD%E5%81%9A%E4%BB%80%E4%B9%88"
+        - listitem [ref=e44]:
+          - link "1. 起步：安装与启动" [ref=e45] [cursor=pointer]:
+            - /url: "#1-%E8%B5%B7%E6%AD%A5%E5%AE%89%E8%A3%85%E4%B8%8E%E5%90%AF%E5%8A%A8"
+        - listitem [ref=e46]:
+          - link "2. 开工前要准备什么（规划清单）" [ref=e47] [cursor=pointer]:
+            - /url: "#2-%E5%BC%80%E5%B7%A5%E5%89%8D%E8%A6%81%E5%87%86%E5%A4%87%E4%BB%80%E4%B9%88%E6%8F%90%E5%89%8D%E8%A7%84%E5%88%92%E6%B8%85%E5%8D%95"
+        - listitem [ref=e48]:
+          - link "3. 基础操作速查" [ref=e49] [cursor=pointer]:
+            - /url: "#3-%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C%E9%80%9F%E6%9F%A5"
+        - listitem [ref=e50]:
+          - link "4. 怎么提需求（提示词模板库）" [ref=e51] [cursor=pointer]:
+            - /url: "#4-%E6%80%8E%E4%B9%88%E6%8F%90%E9%9C%80%E6%B1%82%E6%8F%90%E7%A4%BA%E8%AF%8D%E6%A8%A1%E6%9D%BF%E5%BA%93"
+        - listitem [ref=e52]:
+          - link "5. 常见工作流（照抄即可）" [ref=e53] [cursor=pointer]:
+            - /url: "#5-%E5%B8%B8%E8%A7%81%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%85%A7%E6%8A%84%E5%8D%B3%E5%8F%AF"
+        - listitem [ref=e54]:
+          - link "6. 怎么用高效（5 个提速技巧）" [ref=e55] [cursor=pointer]:
+            - /url: "#6-%E6%80%8E%E4%B9%88%E7%94%A8%E9%AB%98%E6%95%885-%E4%B8%AA%E6%8F%90%E9%80%9F%E6%8A%80%E5%B7%A7"
+        - listitem [ref=e56]:
+          - link "7. 使用中必须注意（红线清单）" [ref=e57] [cursor=pointer]:
+            - /url: "#7-%E4%BD%BF%E7%94%A8%E4%B8%AD%E5%BF%85%E9%A1%BB%E6%B3%A8%E6%84%8F%E7%BA%A2%E7%BA%BF%E6%B8%85%E5%8D%95"
+        - listitem [ref=e58]:
+          - link "8. 新手常见翻车 & 自救" [ref=e59] [cursor=pointer]:
+            - /url: "#8-%E6%96%B0%E6%89%8B%E5%B8%B8%E8%A7%81%E7%BF%BB%E8%BD%A6--%E8%87%AA%E6%95%91"
+        - listitem [ref=e60]:
+          - link "9. 一页纸速查卡" [ref=e61] [cursor=pointer]:
+            - /url: "#9-%E4%B8%80%E9%A1%B5%E7%BA%B8%E9%80%9F%E6%9F%A5%E5%8D%A1"
+        - listitem [ref=e62]:
+          - link "10. 下一步" [ref=e63] [cursor=pointer]:
+            - /url: "#10-%E4%B8%8B%E4%B8%80%E6%AD%A5"
+      - separator [ref=e64]
+      - heading "0. 它是什么，能做什么" [level=2] [ref=e65]
+      - paragraph [ref=e66]:
+        - text: Claude Code 是一个
+        - strong [ref=e67]: 跑在终端里的 AI 编码助手
+        - text: 。它不是 IDE 自动补全插件，也不是聊天机器人——
+        - strong [ref=e68]: 把它当一个初级工程师
+        - text: ，分工如下：
+      - table [ref=e69]:
+        - rowgroup [ref=e70]:
+          - row "Claude 会做 你要做" [ref=e71]:
+            - columnheader "Claude 会做" [ref=e72]
+            - columnheader "你要做" [ref=e73]
+        - rowgroup [ref=e74]:
+          - row "读代码、写代码、跑 shell、改文件、做 git 操作 讲清楚目标，把任务/边界/验收标准说明白" [ref=e75]:
+            - cell "读代码、写代码、跑 shell、改文件、做 git 操作" [ref=e76]
+            - cell "讲清楚目标，把任务/边界/验收标准说明白" [ref=e77]:
+              - strong [ref=e78]: 讲清楚目标
+              - text: ，把任务/边界/验收标准说明白
+          - row "按你给的约束执行，自己验证结果（跑测试等） 审它的产出：看 git diff、跑一遍、确认没改坏" [ref=e79]:
+            - cell "按你给的约束执行，自己验证结果（跑测试等）" [ref=e80]
+            - cell "审它的产出：看 git diff、跑一遍、确认没改坏" [ref=e81]:
+              - strong [ref=e82]: 审它的产出
+              - text: ：看
+              - code [ref=e83]: git diff
+              - text: 、跑一遍、确认没改坏
+          - row "危险操作（删除、force push 等）默认征求同意 拍决策：引入新依赖、改接口、改 schema 这类岔路" [ref=e84]:
+            - cell "危险操作（删除、force push 等）默认征求同意" [ref=e85]
+            - cell "拍决策：引入新依赖、改接口、改 schema 这类岔路" [ref=e86]:
+              - strong [ref=e87]: 拍决策
+              - text: ：引入新依赖、改接口、改 schema 这类岔路
+          - row "能开子代理并行调研、能用 MCP 扩展能力 控制上下文：一会话一任务、该 /compact 就压缩" [ref=e88]:
+            - cell "能开子代理并行调研、能用 MCP 扩展能力" [ref=e89]
+            - cell "控制上下文：一会话一任务、该 /compact 就压缩" [ref=e90]:
+              - strong [ref=e91]: 控制上下文
+              - text: ：一会话一任务、该
+              - code [ref=e92]: /compact
+              - text: 就压缩
+      - paragraph [ref=e93]:
+        - text: 一句话：
+        - strong [ref=e94]: 你在环，它才动手；你不审，它就背锅
+        - text: 。
+      - separator [ref=e95]
+      - heading "1. 起步：安装与启动" [level=2] [ref=e96]
+      - heading "1.1 装上、跑起来" [level=3] [ref=e97]
+      - code [ref=e99]: "# 前置：Node ≥ 18 # 安装（Mac/Linux） npm i -g @anthropic-ai/claude-code # 在项目根目录启动（见下面 1.2，这一步很重要） cd your-project claude"
+      - paragraph [ref=e100]:
+        - text: 首次运行
+        - code [ref=e101]: claude
+        - text: 会
+        - strong [ref=e102]: 交互式引导你登录
+        - text: （浏览器跳转完成），不需要手动写配置文件。
+      - heading "1.2 ⚠️ 一定要在项目根目录启动" [level=3] [ref=e103]:
+        - text: 1.2 ⚠️ 一定要在
+        - strong [ref=e104]: 项目根目录
+        - text: 启动
+      - paragraph [ref=e105]:
+        - text: 这不是风格问题，是
+        - strong [ref=e106]: 功能问题
+        - text: 。启动目录决定了 Claude 这几件事：
+      - table [ref=e107]:
+        - rowgroup [ref=e108]:
+          - row "启动位置决定什么 启错目录的后果" [ref=e109]:
+            - columnheader "启动位置决定什么" [ref=e110]
+            - columnheader "启错目录的后果" [ref=e111]
+        - rowgroup [ref=e112]:
+          - row "工作目录（cwd）：shell 命令在哪里跑 pnpm test、git status 在错误目录执行" [ref=e113]:
+            - cell "工作目录（cwd）：shell 命令在哪里跑" [ref=e114]:
+              - strong [ref=e115]: 工作目录（cwd）
+              - text: ：shell 命令在哪里跑
+            - cell "pnpm test、git status 在错误目录执行" [ref=e116]:
+              - code [ref=e117]: pnpm test
+              - text: 、
+              - code [ref=e118]: git status
+              - text: 在错误目录执行
+          - row "CLAUDE.md 查找起点：向上逐层加载 项目规则完全没注入，等于裸奔" [ref=e119]:
+            - cell "CLAUDE.md 查找起点：向上逐层加载" [ref=e120]:
+              - strong [ref=e121]:
+                - code [ref=e122]: CLAUDE.md
+                - text: 查找起点
+              - text: ：向上逐层加载
+            - cell "项目规则完全没注入，等于裸奔" [ref=e123]
+          - row "文件可见范围：默认限当前目录及子目录 想读的文件\"不在范围内\"，反复打断" [ref=e124]:
+            - cell "文件可见范围：默认限当前目录及子目录" [ref=e125]:
+              - strong [ref=e126]: 文件可见范围
+              - text: ：默认限当前目录及子目录
+            - cell "想读的文件\"不在范围内\"，反复打断" [ref=e127]
+          - row ".claude/settings.json 加载范围：项目级权限规则 deny 规则不生效，敏感文件可能被读" [ref=e128]:
+            - cell ".claude/settings.json 加载范围：项目级权限规则" [ref=e129]:
+              - strong [ref=e130]:
+                - code [ref=e131]: .claude/settings.json
+                - text: 加载范围
+              - text: ：项目级权限规则
+            - cell "deny 规则不生效，敏感文件可能被读" [ref=e132]
+      - paragraph [ref=e133]:
+        - strong [ref=e134]:
+          - text: 项目根 = 有
+          - code [ref=e135]: .git/
+          - text: 和
+          - code [ref=e136]: package.json
+          - text: /
+          - code [ref=e137]: pyproject.toml
+          - text: /
+          - code [ref=e138]: go.mod
+          - text: /
+          - code [ref=e139]: Cargo.toml
+          - text: 的那层。
+      - code [ref=e141]: "cd your-project/src # ❌ 子目录起，读不到根的 CLAUDE.md、跑不了根目录脚本 cd ~ # ❌ 家目录起，Claude 完全不知道你在做哪个项目 cd / # ❌ 极端情况，Claude 会乱翻整个文件系统，安全和效率双输 cd ~/work/your-project # ✅ 根目录，和你平时 git 操作的位置一致 claude"
+      - blockquote [ref=e142]:
+        - paragraph [ref=e143]:
+          - strong [ref=e144]: 小技巧
+          - text: ：IDE（Cursor / VSCode）里用集成终端启动
+          - code [ref=e145]: claude
+          - text: ，终端默认就是项目根，几乎不会走错。
+          - strong [ref=e146]: 走错了怎么办
+          - text: ：直接
+          - code [ref=e147]: Ctrl+C
+          - text: 退出、
+          - code [ref=e148]: cd
+          - text: 到正确位置重开，不要在里面硬聊——重启成本远低于硬撑。
+      - paragraph [ref=e149]:
+        - text: 启动成功后，
+        - strong [ref=e150]: 第一件事不是开聊，而是做项目规划
+        - text: （下一节用
+        - code [ref=e151]: /init
+        - text: 让 Claude 起草
+        - code [ref=e152]: CLAUDE.md
+        - text: ）。
+      - separator [ref=e153]
+      - heading "2. 开工前要准备什么（提前规划清单）" [level=2] [ref=e154]
+      - paragraph [ref=e155]:
+        - text: 这一步决定后面 80% 的体验。
+        - strong [ref=e156]: 跳过它，后面每一步都要付学费
+        - text: 。
+      - heading "2.1 给项目一份 CLAUDE.md（最重要）" [level=3] [ref=e157]:
+        - text: 2.1 给项目一份
+        - code [ref=e158]: CLAUDE.md
+        - text: （最重要）
+      - paragraph [ref=e159]:
+        - text: 在项目根目录创建
+        - code [ref=e160]: CLAUDE.md
+        - text: ，它会在
+        - strong [ref=e161]: 每次会话启动时自动注入上下文
+        - text: 。新手模板：
+      - code [ref=e163]: "# 项目名 ## 技术栈 - Node 20 / TypeScript 5 / Next.js 14 - 包管理：pnpm - 数据库：Postgres（本地 docker-compose 起） ## 开发命令 - 启动：`pnpm dev` - 测试：`pnpm test` - 类型检查：`pnpm typecheck` - Lint：`pnpm lint` ## 代码约定 - 禁止使用 `any`；用 `unknown` + 类型守卫 - 组件文件 kebab-case，导出用 PascalCase - 不要在组件里直接 fetch，统一走 `src/lib/api` ## 别动的地方 - `migrations/` 已上线的文件不要改 - `src/legacy/` 废弃代码，新功能别引用"
+      - paragraph [ref=e164]:
+        - strong [ref=e165]: 一条命令生成起步版本
+        - text: ：
+      - code [ref=e167]: claude > /init
+      - paragraph [ref=e168]:
+        - code [ref=e169]: /init
+        - text: 会让 Claude 自己读仓库、起草一份
+        - code [ref=e170]: CLAUDE.md
+        - text: ，你再手动精修。
+      - blockquote [ref=e171]:
+        - paragraph [ref=e172]:
+          - text: 💡
+          - strong [ref=e173]:
+            - code [ref=e174]: CLAUDE.md
+            - text: 应该提交到 git 仓库
+          - text: ，和代码一起版本化。
+          - text: 它是
+          - strong [ref=e175]: 团队共享的 AI 协作规约
+          - text: ，不是个人配置：新人 clone 下来就自动继承规则；规则变更走 PR 评审；团队里每个人（和每个人的 Claude）看到的是同一份约定。
+          - text: 个人偏好（语言、输出风格等）放在
+          - code [ref=e176]: ~/.claude/CLAUDE.md
+          - text: 全局文件里，那个不进仓库。
+          - text: 规则速记：
+          - strong [ref=e177]: 项目级 → 入库共享，用户级 → 本地私有
+          - text: 。
+      - heading "2.2 把 .env / 密钥挡在 Claude 读取范围外" [level=3] [ref=e178]:
+        - text: 2.2 把
+        - code [ref=e179]: .env
+        - text: / 密钥挡在 Claude 读取范围外
+      - paragraph [ref=e180]:
+        - text: ⚠️
+        - strong [ref=e181]: 一个新手必知的事实
+        - text: ：
+        - code [ref=e182]: .gitignore
+        - strong [ref=e183]: 不能
+        - text: 阻止 Claude 读取文件，它只影响
+        - code [ref=e184]: "@"
+        - text: 文件选择器的补全。所以光把
+        - code [ref=e185]: .env
+        - text: 写进
+        - code [ref=e186]: .gitignore
+        - text: 是不够的。
+      - paragraph [ref=e187]:
+        - text: 最小动作——在项目根创建
+        - code [ref=e188]: .claude/settings.json
+        - text: ：
+      - code [ref=e190]: "{ \"permissions\": { \"deny\": [ \"Read(./.env)\", \"Read(./.env.*)\", \"Read(./secrets/**)\" ] } }"
+      - paragraph [ref=e191]: 做完这一步你就安全了，其他可以先不管。
+      - blockquote [ref=e192]:
+        - paragraph [ref=e193]:
+          - text: 想了解原理、判断原则、完整模板（为什么
+          - code [ref=e194]: .claudeignore
+          - text: 不可靠、怎么写通配规则等），见进阶版
+          - link "claude-code-best-practices.md §5 上下文与文件访问控制" [ref=e195] [cursor=pointer]:
+            - /url: ./best-practices.html#5-%E4%B8%8A%E4%B8%8B%E6%96%87%E7%AE%A1%E7%90%86%E5%87%8F%E5%B0%91%E5%99%AA%E5%A3%B0
+            - code [ref=e196]: claude-code-best-practices.md
+            - text: §5 上下文与文件访问控制
+          - text: 。
+      - heading "2.3 确认 git 是干净的" [level=3] [ref=e197]
+      - paragraph [ref=e198]: 动手前养成习惯：
+      - code [ref=e200]: "git status # 确认没未提交的脏改动 git checkout -b feat/xxx # 给这次任务开新分支"
+      - paragraph [ref=e201]:
+        - text: 这样万一 Claude 改歪了，
+        - code [ref=e202]: git restore .
+        - text: 一键回滚，零成本。
+      - heading "2.4 想清楚这次会话要干什么" [level=3] [ref=e203]:
+        - text: 2.4 想清楚
+        - strong [ref=e204]: 这次会话
+        - text: 要干什么
+      - paragraph [ref=e205]:
+        - text: 一次会话 = 一个目标。
+        - strong [ref=e206]: 不要把"写功能 + 调 bug + 重构"混在一个对话里
+        - text: ，上下文会被稀释到效果很差。
+      - paragraph [ref=e207]: 开始前用一句话写清楚：
+      - blockquote [ref=e208]:
+        - paragraph [ref=e209]:
+          - text: "\"这次会话的目标：在"
+          - code [ref=e210]: UserList
+          - text: 组件增加分页，每页 20 条，用已有的
+          - code [ref=e211]: Pagination
+          - text: 组件，不改 API 接口。"
+      - heading "2.5 决定权限档位" [level=3] [ref=e212]
+      - table [ref=e213]:
+        - rowgroup [ref=e214]:
+          - row "档位 启动方式 适合谁" [ref=e215]:
+            - columnheader "档位" [ref=e216]
+            - columnheader "启动方式" [ref=e217]
+            - columnheader "适合谁" [ref=e218]
+        - rowgroup [ref=e219]:
+          - row "审批模式（默认） claude 所有新手，先用这个" [ref=e220]:
+            - cell "审批模式（默认）" [ref=e221]:
+              - strong [ref=e222]: 审批模式（默认）
+            - cell "claude" [ref=e223]:
+              - code [ref=e224]: claude
+            - cell "所有新手，先用这个" [ref=e225]
+          - row "精细放行 claude --allowedTools \"Read\" \"Grep\" \"Glob\" \"Bash(git *)\" 熟练后，放行只读和 git" [ref=e226]:
+            - cell "精细放行" [ref=e227]:
+              - strong [ref=e228]: 精细放行
+            - cell "claude --allowedTools \"Read\" \"Grep\" \"Glob\" \"Bash(git *)\"" [ref=e229]:
+              - code [ref=e230]: claude --allowedTools "Read" "Grep" "Glob" "Bash(git *)"
+            - cell "熟练后，放行只读和 git" [ref=e231]
+          - row "Yolo 模式 claude --dangerously-skip-permissions 不要在真实项目用" [ref=e232]:
+            - cell "Yolo 模式" [ref=e233]:
+              - strong [ref=e234]: Yolo 模式
+            - cell "claude --dangerously-skip-permissions" [ref=e235]:
+              - code [ref=e236]: claude --dangerously-skip-permissions
+            - cell "不要在真实项目用" [ref=e237]:
+              - strong [ref=e238]: 不要在真实项目用
+      - blockquote [ref=e239]:
+        - paragraph [ref=e240]: 新手一律默认档。Yolo 省的那几十次回车，抵不上一次误删的代价。
+      - heading "2.6 想让它用中文回复（可选）" [level=3] [ref=e241]
+      - paragraph [ref=e242]:
+        - text: 中文用户最常见的一句偏好，写在
+        - code [ref=e243]: ~/.claude/CLAUDE.md
+        - text: （全局）里
+        - strong [ref=e244]: 一次配置、所有项目生效
+        - text: ：
+      - code [ref=e246]: "# 全局偏好 - 默认用简体中文回复；代码和命令保持英文 - 输出尽量简洁，先结论后细节"
+      - paragraph [ref=e247]:
+        - text: 不想加到全局的话，也可以在会话里临时说一句 "请用中文回复"，或用
+        - code [ref=e248]: "#"
+        - text: 前缀记到项目
+        - code [ref=e249]: CLAUDE.md
+        - text: 里（见 §3.2）。
+      - separator [ref=e250]
+      - heading "3. 基础操作速查" [level=2] [ref=e251]
+      - heading "3.1 斜杠命令" [level=3] [ref=e252]
+      - paragraph [ref=e253]:
+        - strong [ref=e254]: 核心 5 个（第一周只需要记这些）
+        - text: ：
+      - table [ref=e255]:
+        - rowgroup [ref=e256]:
+          - row "命令 作用" [ref=e257]:
+            - columnheader "命令" [ref=e258]
+            - columnheader "作用" [ref=e259]
+        - rowgroup [ref=e260]:
+          - row "/help 查所有命令（忘了就按这个）" [ref=e261]:
+            - cell "/help" [ref=e262]:
+              - code [ref=e263]: /help
+            - cell "查所有命令（忘了就按这个）" [ref=e264]
+          - row "/init 让 Claude 读仓库、起草 CLAUDE.md" [ref=e265]:
+            - cell "/init" [ref=e266]:
+              - code [ref=e267]: /init
+            - cell "让 Claude 读仓库、起草 CLAUDE.md" [ref=e268]:
+              - text: 让 Claude 读仓库、起草
+              - code [ref=e269]: CLAUDE.md
+          - row "/clear 清空当前会话历史，开始新任务" [ref=e270]:
+            - cell "/clear" [ref=e271]:
+              - code [ref=e272]: /clear
+            - cell "清空当前会话历史，开始新任务" [ref=e273]
+          - row "/compact 压缩对话历史，续命长会话" [ref=e274]:
+            - cell "/compact" [ref=e275]:
+              - code [ref=e276]: /compact
+            - cell "压缩对话历史，续命长会话" [ref=e277]
+          - row "/model 切换模型（Sonnet / Opus 等）" [ref=e278]:
+            - cell "/model" [ref=e279]:
+              - code [ref=e280]: /model
+            - cell "切换模型（Sonnet / Opus 等）" [ref=e281]
+      - paragraph [ref=e282]:
+        - strong [ref=e283]: 进阶 5 个（熟悉后再用）
+        - text: ：
+      - table [ref=e284]:
+        - rowgroup [ref=e285]:
+          - row "命令 作用" [ref=e286]:
+            - columnheader "命令" [ref=e287]
+            - columnheader "作用" [ref=e288]
+        - rowgroup [ref=e289]:
+          - row "/cost 查看本次会话消耗" [ref=e290]:
+            - cell "/cost" [ref=e291]:
+              - code [ref=e292]: /cost
+            - cell "查看本次会话消耗" [ref=e293]
+          - row "/resume 恢复上一次会话" [ref=e294]:
+            - cell "/resume" [ref=e295]:
+              - code [ref=e296]: /resume
+            - cell "恢复上一次会话" [ref=e297]
+          - row "/agents 管理子代理" [ref=e298]:
+            - cell "/agents" [ref=e299]:
+              - code [ref=e300]: /agents
+            - cell "管理子代理" [ref=e301]
+          - row "/mcp 管理 MCP 服务" [ref=e302]:
+            - cell "/mcp" [ref=e303]:
+              - code [ref=e304]: /mcp
+            - cell "管理 MCP 服务" [ref=e305]
+          - row "/hooks 管理 hooks（§6.5）" [ref=e306]:
+            - cell "/hooks" [ref=e307]:
+              - code [ref=e308]: /hooks
+            - cell "管理 hooks（§6.5）" [ref=e309]
+      - heading "3.2 输入技巧（3 个必学）" [level=3] [ref=e310]
+      - table [ref=e311]:
+        - rowgroup [ref=e312]:
+          - row "前缀/符号 作用 例子" [ref=e313]:
+            - columnheader "前缀/符号" [ref=e314]
+            - columnheader "作用" [ref=e315]
+            - columnheader "例子" [ref=e316]
+        - rowgroup [ref=e317]:
+          - row "@ 引用文件/目录作上下文 修一下 @src/auth.ts 的空指针" [ref=e318]:
+            - cell "@" [ref=e319]:
+              - code [ref=e320]: "@"
+            - cell "引用文件/目录作上下文" [ref=e321]
+            - cell "修一下 @src/auth.ts 的空指针" [ref=e322]:
+              - code [ref=e323]: 修一下 @src/auth.ts 的空指针
+          - row "! 直接跑 shell 命令（不走 Claude） !pnpm test" [ref=e324]:
+            - cell "!" [ref=e325]:
+              - code [ref=e326]: "!"
+            - cell "直接跑 shell 命令（不走 Claude）" [ref=e327]
+            - cell "!pnpm test" [ref=e328]:
+              - code [ref=e329]: "!pnpm test"
+          - 'row "# 把这句话写入 CLAUDE.md 成为长期记忆 # 本项目禁止使用 lodash" [ref=e330]':
+            - cell "#" [ref=e331]:
+              - code [ref=e332]: "#"
+            - cell "把这句话写入 CLAUDE.md 成为长期记忆" [ref=e333]:
+              - text: 把这句话
+              - strong [ref=e334]:
+                - text: 写入
+                - code [ref=e335]: CLAUDE.md
+              - text: 成为长期记忆
+            - cell "# 本项目禁止使用 lodash" [ref=e336]:
+              - code [ref=e337]: "# 本项目禁止使用 lodash"
+      - heading "3.3 快捷键" [level=3] [ref=e338]
+      - table [ref=e339]:
+        - rowgroup [ref=e340]:
+          - row "按键 作用" [ref=e341]:
+            - columnheader "按键" [ref=e342]
+            - columnheader "作用" [ref=e343]
+        - rowgroup [ref=e344]:
+          - row "Shift+Tab 切换 Plan 模式 ⇄ 执行模式" [ref=e345]:
+            - cell "Shift+Tab" [ref=e346]:
+              - code [ref=e347]: Shift+Tab
+            - cell "切换 Plan 模式 ⇄ 执行模式" [ref=e348]:
+              - text: 切换
+              - strong [ref=e349]: Plan 模式
+              - text: ⇄ 执行模式
+          - row "Esc 打断当前生成" [ref=e350]:
+            - cell "Esc" [ref=e351]:
+              - code [ref=e352]: Esc
+            - cell "打断当前生成" [ref=e353]
+          - row "Ctrl+C 取消当前输入 / 连按两次退出" [ref=e354]:
+            - cell "Ctrl+C" [ref=e355]:
+              - code [ref=e356]: Ctrl+C
+            - cell "取消当前输入 / 连按两次退出" [ref=e357]
+          - row "↑ 翻历史输入" [ref=e358]:
+            - cell "↑" [ref=e359]:
+              - code [ref=e360]: ↑
+            - cell "翻历史输入" [ref=e361]
+      - heading "3.4 Plan 模式是什么" [level=3] [ref=e362]
+      - paragraph [ref=e363]:
+        - text: 按
+        - code [ref=e364]: Shift+Tab
+        - text: 进入 Plan 模式后：
+      - list [ref=e365]:
+        - listitem [ref=e366]:
+          - text: Claude
+          - strong [ref=e367]: 只读不写
+        - listitem [ref=e368]: 它会先探索代码、画出改动方案
+        - listitem [ref=e369]: 你审方案 → 确认 → 切回执行模式 → 它动手
+      - paragraph [ref=e370]:
+        - strong [ref=e371]: 新手强烈建议：涉及 3 个以上文件的任务，先 Plan
+        - text: 。
+      - separator [ref=e372]
+      - heading "4. 怎么提需求（提示词模板库）" [level=2] [ref=e373]
+      - paragraph [ref=e374]:
+        - strong [ref=e375]: 90% 的"Claude 不好用"其实是提示词差
+        - text: 。死记这 4 个模板。
+      - heading "4.1 写新功能" [level=3] [ref=e376]
+      - code [ref=e378]: 目标：<一句话> 位置：<哪个文件/模块> 约束： - 复用 <现有组件/工具> - 不改 <接口/数据结构> - 保持现有测试通过 验收：<怎样算完成，最好能跑的命令>
+      - paragraph [ref=e379]:
+        - strong [ref=e380]: 例子
+        - text: ：
+      - blockquote [ref=e381]:
+        - paragraph [ref=e382]:
+          - text: 目标：给
+          - code [ref=e383]: UserList
+          - text: 加分页
+          - text: 位置：
+          - code [ref=e384]: src/components/user-list.tsx
+          - text: 约束：复用
+          - code [ref=e385]: src/components/pagination.tsx
+          - text: ，每页 20，不动
+          - code [ref=e386]: /api/users
+          - text: 接口
+          - text: 验收：
+          - code [ref=e387]: pnpm test user-list
+          - text: 通过，浏览器打开分页切换正常
+      - heading "4.2 修 Bug" [level=3] [ref=e388]
+      - code [ref=e390]: 现象：<做什么 → 发生什么 → 期望什么> 出错位置：<文件:行号 或 错误日志关键行> 已排查：<你已经看过/排除的可能性> 约束：只改必要代码，不要顺手"优化"别的
+      - heading "4.3 读代码 / 理解模块" [level=3] [ref=e391]
+      - code [ref=e393]: 帮我搞懂 <模块名>： 1. 它的职责是什么？ 2. 主要入口和调用链？ 3. 有哪些坑或历史包袱？ 先只读不改。
+      - heading "4.4 重构" [level=3] [ref=e394]
+      - paragraph [ref=e395]:
+        - strong [ref=e396]: 一定要先走 Plan 模式
+        - text: ：
+      - code [ref=e398]: Plan 模式：重构 <模块> 以 <目的>。 先输出： 1. 涉及的文件清单 2. 每个文件的改动点摘要 3. 潜在风险和回滚方案 等我确认再执行。
+      - heading "4.5 提示词 · 红绿对照" [level=3] [ref=e399]
+      - table [ref=e400]:
+        - rowgroup [ref=e401]:
+          - row "差 好" [ref=e402]:
+            - columnheader "差" [ref=e403]
+            - columnheader "好" [ref=e404]
+        - rowgroup [ref=e405]:
+          - row "\"优化这段代码\" \"减少 processOrders() 的嵌套，行为不变，原测试要过\"" [ref=e406]:
+            - cell "\"优化这段代码\"" [ref=e407]
+            - cell "\"减少 processOrders() 的嵌套，行为不变，原测试要过\"" [ref=e408]:
+              - text: "\"减少"
+              - code [ref=e409]: processOrders()
+              - text: 的嵌套，行为不变，原测试要过"
+          - row "\"修复 bug\" \"修 auth.ts:142 的空指针，user 可能 undefined\"" [ref=e410]:
+            - cell "\"修复 bug\"" [ref=e411]
+            - cell "\"修 auth.ts:142 的空指针，user 可能 undefined\"" [ref=e412]:
+              - text: "\"修"
+              - code [ref=e413]: auth.ts:142
+              - text: 的空指针，
+              - code [ref=e414]: user
+              - text: 可能 undefined"
+          - row "\"加个登录\" 按 4.1 模板填完整" [ref=e415]:
+            - cell "\"加个登录\"" [ref=e416]
+            - cell "按 4.1 模板填完整" [ref=e417]
+          - row "\"帮我看看项目\" \"读仓库，输出一页架构速览，不改代码\"" [ref=e418]:
+            - cell "\"帮我看看项目\"" [ref=e419]
+            - cell "\"读仓库，输出一页架构速览，不改代码\"" [ref=e420]
+      - separator [ref=e421]
+      - heading "5. 常见工作流（照抄即可）" [level=2] [ref=e422]
+      - heading "5.1 接到新需求的标准起手式" [level=3] [ref=e423]
+      - code [ref=e425]: 1. git checkout -b feat/xxx 2. claude 3. > /init （如果还没 CLAUDE.md） 4. Shift+Tab 进 Plan 模式 5. 按 4.1 模板提需求 6. 审方案 → Shift+Tab 切执行 → 让它干 7. !pnpm test 验证 8. git diff 人工审 → git commit
+      - heading "5.2 修线上 Bug 的标准起手式" [level=3] [ref=e426]
+      - code [ref=e428]: 1. git checkout -b fix/xxx 2. claude 3. 贴错误关键行 + 复现步骤（4.2 模板） 4. Plan 模式：让它定位根因，别急着改 5. 确认定位无误 → 执行最小修复 6. 补一个回归测试 7. 验证 → commit
+      - heading "5.3 读懂一个陌生项目" [level=3] [ref=e429]
+      - code [ref=e431]: 1. cd 到项目根 2. claude 3. > 读这个仓库，输出：1) 一句话定位 2) 主目录职责 3) 关键入口文件 4) 启动方式 4. > 挑 3 个最重要的模块，各用 50 字说明 5. > 把上面结论整理成 CLAUDE.md 的草稿
+      - heading "5.4 生成 commit / PR" [level=3] [ref=e432]
+      - paragraph [ref=e433]: 直接用自然语言让它看 diff 来写（不需要记命令）：
+      - code [ref=e435]: "> 看一下 git diff，按项目现有的 commit message 风格生成一条 commit message，等我确认再提交 > 根据这次分支的所有提交，写一份 PR 描述，按 Summary / Changes / Test Plan 组织"
+      - blockquote [ref=e436]:
+        - paragraph [ref=e437]:
+          - text: 如果你会写 custom slash command，可以把上面两句封装成
+          - code [ref=e438]: /commit
+          - text: 、
+          - code [ref=e439]: /pr
+          - text: ，更顺手。
+      - separator [ref=e440]
+      - heading "6. 怎么用高效（5 个提速技巧）" [level=2] [ref=e441]
+      - heading "6.1 按任务选模型" [level=3] [ref=e442]
+      - table [ref=e443]:
+        - rowgroup [ref=e444]:
+          - row "任务 选哪个" [ref=e445]:
+            - columnheader "任务" [ref=e446]
+            - columnheader "选哪个" [ref=e447]
+        - rowgroup [ref=e448]:
+          - row "简单改字、格式化、重命名 Haiku" [ref=e449]:
+            - cell "简单改字、格式化、重命名" [ref=e450]
+            - cell "Haiku" [ref=e451]
+          - row "日常功能、bugfix Sonnet（默认）" [ref=e452]:
+            - cell "日常功能、bugfix" [ref=e453]
+            - cell "Sonnet（默认）" [ref=e454]
+          - row "架构设计、复杂重构、Plan 阶段 Opus" [ref=e455]:
+            - cell "架构设计、复杂重构、Plan 阶段" [ref=e456]
+            - cell "Opus" [ref=e457]
+      - paragraph [ref=e458]:
+        - text: 用
+        - code [ref=e459]: /model
+        - text: 随时切换。
+        - strong [ref=e460]: 别全程 Opus
+        - text: ，烧钱又不一定更好。
+      - heading "6.2 一个任务一个会话" [level=3] [ref=e461]
+      - paragraph [ref=e462]:
+        - text: 完成一件事就
+        - code [ref=e463]: /clear
+        - text: 或重开。上下文里越干净，下个任务越准。
+      - heading "6.3 长会话用 /compact" [level=3] [ref=e464]:
+        - text: 6.3 长会话用
+        - code [ref=e465]: /compact
+      - paragraph [ref=e466]:
+        - text: 感觉 Claude "变笨"了（经常忘、重复问），多半是上下文太满。
+        - code [ref=e467]: /compact
+        - text: 压缩一下，继续用。
+      - heading "6.4 并行子代理处理独立任务 （进阶，第一周可忽略）" [level=3] [ref=e468]:
+        - text: 6.4 并行子代理处理独立任务
+        - subscript [ref=e469]: （进阶，第一周可忽略）
+      - paragraph [ref=e470]: "\"帮我并行做三件事："
+      - list [ref=e471]:
+        - listitem [ref=e472]: 调研 A 方案
+        - listitem [ref=e473]: 调研 B 方案
+        - listitem [ref=e474]:
+          - text: 列出现有代码里相关的 5 个文件
+          - text: 用 3 个子代理并行。"
+      - paragraph [ref=e475]:
+        - text: 子代理在
+        - strong [ref=e476]: 独立上下文
+        - text: 中跑、只把
+        - strong [ref=e477]: 摘要
+        - text: 回到主会话，不污染主上下文。
+      - blockquote [ref=e478]:
+        - paragraph [ref=e479]: 新手建议：前一两周先把单线任务做顺了，再引入子代理。否则容易"拆了任务但又说不清每个子代理该干什么"，反而更乱。
+      - heading "6.5 用 Hooks 省掉\"修格式\"的废话" [level=3] [ref=e480]
+      - paragraph [ref=e481]:
+        - text: 在
+        - code [ref=e482]: .claude/settings.json
+        - text: 配置，让它
+        - strong [ref=e483]: 每次写完文件自动 lint
+        - text: ：
+      - code [ref=e485]: "{ \"hooks\": { \"PostToolUse\": [ { \"matcher\": \"Edit|Write\", \"command\": \"pnpm eslint --fix $CLAUDE_FILE_PATH\" } ] } }"
+      - paragraph [ref=e486]: 省下来的不是时间，是上下文。
+      - separator [ref=e487]
+      - heading "7. 使用中必须注意（红线清单）" [level=2] [ref=e488]
+      - heading "7.1 安全红线（永远不要越过）" [level=3] [ref=e489]
+      - list [ref=e490]:
+        - listitem [ref=e491]:
+          - text: 🚫
+          - strong [ref=e492]: 生产数据库
+          - text: 操作：DROP、TRUNCATE、大批量 UPDATE —— 要它先打印 SQL 给你看
+        - listitem [ref=e493]:
+          - text: 🚫
+          - strong [ref=e494]:
+            - code [ref=e495]: git push --force
+          - text: 到主分支 —— 不要放行
+        - listitem [ref=e496]:
+          - text: 🚫
+          - strong [ref=e497]:
+            - code [ref=e498]: rm -rf
+          - text: 带变量参数 —— 先
+          - code [ref=e499]: ls
+          - text: 确认
+        - listitem [ref=e500]:
+          - text: 🚫
+          - strong [ref=e501]:
+            - text: 提交
+            - code [ref=e502]: .env
+            - text: / 密钥 / token
+          - text: —— 双重保险：
+          - code [ref=e503]: .gitignore
+          - text: 防提交，
+          - code [ref=e504]: .claude/settings.json
+          - text: 的
+          - code [ref=e505]: permissions.deny
+          - text: 防 Claude 读取（见 §2.2）
+        - listitem [ref=e506]:
+          - text: 🚫
+          - strong [ref=e507]: Yolo 模式在真实项目
+      - heading "7.2 质量红线（保证改完不背锅）" [level=3] [ref=e508]
+      - list [ref=e509]:
+        - listitem [ref=e510]:
+          - text: ✅
+          - strong [ref=e511]: 每次改完立刻验证
+          - text: ：
+          - code [ref=e512]: "!pnpm test"
+          - text: / 手动跑一次
+        - listitem [ref=e513]:
+          - text: ✅
+          - strong [ref=e514]:
+            - text: 大改前
+            - code [ref=e515]: git commit
+          - text: ，给自己一个清晰的回滚点
+        - listitem [ref=e516]:
+          - text: ✅
+          - strong [ref=e517]:
+            - text: 人工看
+            - code [ref=e518]: git diff
+          - text: ，不能无脑接受
+        - listitem [ref=e519]:
+          - text: ✅
+          - strong [ref=e520]: 测试不能被"改绿"
+          - text: ：如果它在修改测试让测试通过，停下来问它为什么
+        - listitem [ref=e521]:
+          - text: ✅
+          - strong [ref=e522]: 一次改动不要超过 ~10 个文件
+          - text: ，超了就拆
+      - heading "7.3 上下文红线（保证它不变笨）" [level=3] [ref=e523]
+      - list [ref=e524]:
+        - listitem [ref=e525]:
+          - text: ✅ 项目根有
+          - code [ref=e526]: CLAUDE.md
+          - text: 和
+          - code [ref=e527]: .claude/settings.json
+          - text: （至少包含
+          - code [ref=e528]: .env
+          - text: 等敏感文件的
+          - code [ref=e529]: permissions.deny
+          - text: ）
+        - listitem [ref=e530]:
+          - text: ✅ 全局
+          - code [ref=e531]: ~/.claude/CLAUDE.md
+          - strong [ref=e532]: 不超过 50 行
+        - listitem [ref=e533]: ✅ 不装不必要的 MCP / Plugin / Skill（每个都吃上下文）
+        - listitem [ref=e534]:
+          - text: ✅ 不把整个文件贴进提示词，用
+          - code [ref=e535]: "@path"
+        - listitem [ref=e536]:
+          - text: ✅ 会话超过 60% 上下文就
+          - code [ref=e537]: /compact
+          - text: 或重开
+      - heading "7.4 决策红线（别让它替你决策）" [level=3] [ref=e538]
+      - paragraph [ref=e539]:
+        - text: Claude 倾向于
+        - strong [ref=e540]: 顺着你的意思
+        - text: 往下做。这些决策你必须自己拍：
+      - list [ref=e541]:
+        - listitem [ref=e542]: 要不要引入新依赖？用哪个库？
+        - listitem [ref=e543]: 数据库 schema 改不改？怎么迁移？
+        - listitem [ref=e544]: 接口改不改？会不会破坏调用方？
+        - listitem [ref=e545]: 什么时候停下来 refactor，什么时候先 ship？
+      - paragraph [ref=e546]:
+        - text: 遇到这些岔路，
+        - strong [ref=e547]: 让它给你列选项和 trade-off，而不是直接选
+        - text: 。
+      - separator [ref=e548]
+      - heading "8. 新手常见翻车 & 自救" [level=2] [ref=e549]
+      - table [ref=e550]:
+        - rowgroup [ref=e551]:
+          - row "症状 原因 自救" [ref=e552]:
+            - columnheader "症状" [ref=e553]
+            - columnheader "原因" [ref=e554]
+            - columnheader "自救" [ref=e555]
+        - rowgroup [ref=e556]:
+          - row "\"它改了一堆我没让改的文件\" 没用 Plan 模式、提示词没限定范围 git restore . → 重新 Plan → 限定文件" [ref=e557]:
+            - cell "\"它改了一堆我没让改的文件\"" [ref=e558]
+            - cell "没用 Plan 模式、提示词没限定范围" [ref=e559]
+            - cell "git restore . → 重新 Plan → 限定文件" [ref=e560]:
+              - code [ref=e561]: git restore .
+              - text: → 重新 Plan → 限定文件
+          - row "\"它装了 5 个新依赖\" 没写\"不引入新依赖\"约束 写进 CLAUDE.md：\"新依赖必须先问我\"" [ref=e562]:
+            - cell "\"它装了 5 个新依赖\"" [ref=e563]
+            - cell "没写\"不引入新依赖\"约束" [ref=e564]
+            - cell "写进 CLAUDE.md：\"新依赖必须先问我\"" [ref=e565]:
+              - text: 写进
+              - code [ref=e566]: CLAUDE.md
+              - text: ："新依赖必须先问我"
+          - row "\"测试被它改绿了\" 没约束\"不要改测试\" 回滚测试文件，明确：\"只改实现，不改测试\"" [ref=e567]:
+            - cell "\"测试被它改绿了\"" [ref=e568]
+            - cell "没约束\"不要改测试\"" [ref=e569]
+            - cell "回滚测试文件，明确：\"只改实现，不改测试\"" [ref=e570]
+          - row "\"它越来越笨、老是忘事\" 上下文满了 /compact 或 /clear + 重开，关键进度写进 CLAUDE.md" [ref=e571]:
+            - cell "\"它越来越笨、老是忘事\"" [ref=e572]
+            - cell "上下文满了" [ref=e573]
+            - cell "/compact 或 /clear + 重开，关键进度写进 CLAUDE.md" [ref=e574]:
+              - code [ref=e575]: /compact
+              - text: 或
+              - code [ref=e576]: /clear
+              - text: + 重开，关键进度写进
+              - code [ref=e577]: CLAUDE.md
+          - row "\"同样的问题问它总给不同答案\" 温度高 + 上下文被稀释 提示词更具体（文件+行号+约束），缩短会话" [ref=e578]:
+            - cell "\"同样的问题问它总给不同答案\"" [ref=e579]
+            - cell "温度高 + 上下文被稀释" [ref=e580]
+            - cell "提示词更具体（文件+行号+约束），缩短会话" [ref=e581]
+          - row "\"它一直在探索不动手\" 你说的是模糊目标 给明确验收标准：\"改完 pnpm test xxx 要过\"" [ref=e582]:
+            - cell "\"它一直在探索不动手\"" [ref=e583]
+            - cell "你说的是模糊目标" [ref=e584]
+            - cell "给明确验收标准：\"改完 pnpm test xxx 要过\"" [ref=e585]:
+              - text: 给明确验收标准："改完
+              - code [ref=e586]: pnpm test xxx
+              - text: 要过"
+          - row "\"它死循环在一个错误上\" 它看不到真正的报错 你手动跑 → 把完整关键错误贴给它" [ref=e587]:
+            - cell "\"它死循环在一个错误上\"" [ref=e588]
+            - cell "它看不到真正的报错" [ref=e589]
+            - cell "你手动跑 → 把完整关键错误贴给它" [ref=e590]:
+              - text: 你手动跑 → 把
+              - strong [ref=e591]: 完整关键错误
+              - text: 贴给它
+          - row "\"它把 .env 提交了\" 权限放太宽 + 没 .gitignore git rm --cached .env → 撤销 commit → 改密钥" [ref=e592]:
+            - cell "\"它把 .env 提交了\"" [ref=e593]:
+              - text: "\"它把"
+              - code [ref=e594]: .env
+              - text: 提交了"
+            - cell "权限放太宽 + 没 .gitignore" [ref=e595]:
+              - text: 权限放太宽 + 没
+              - code [ref=e596]: .gitignore
+            - cell "git rm --cached .env → 撤销 commit → 改密钥" [ref=e597]:
+              - code [ref=e598]: git rm --cached .env
+              - text: → 撤销 commit → 改密钥
+          - row "\"账单比预期高很多\" 全程 Opus + 长会话不压缩 日常切 Sonnet，/compact，/cost 常看" [ref=e599]:
+            - cell "\"账单比预期高很多\"" [ref=e600]
+            - cell "全程 Opus + 长会话不压缩" [ref=e601]
+            - cell "日常切 Sonnet，/compact，/cost 常看" [ref=e602]:
+              - text: 日常切 Sonnet，
+              - code [ref=e603]: /compact
+              - text: ，
+              - code [ref=e604]: /cost
+              - text: 常看
+      - heading "四个翻车剧本（照着避坑）" [level=3] [ref=e605]
+      - paragraph [ref=e606]:
+        - text: 上面是症状速查，下面是
+        - strong [ref=e607]: 完整剧本
+        - text: ——看别人是怎么一步步走到坑里的，比记清单有用。
+      - separator [ref=e608]
+      - heading "Case 1：一句\"帮我优化一下项目\"，Claude 改了 37 个文件" [level=4] [ref=e609]
+      - paragraph [ref=e610]:
+        - strong [ref=e611]: 😵 场景
+        - text: ：周五下午，某后端项目。新手想让 Claude "提升代码质量"。
+      - paragraph [ref=e612]:
+        - strong [ref=e613]: 🚶 他说的
+        - text: ：
+      - blockquote [ref=e614]:
+        - paragraph [ref=e615]: "\"帮我优化一下这个项目的代码\""
+      - paragraph [ref=e616]:
+        - strong [ref=e617]: 💥 发生了什么
+        - text: ：
+      - list [ref=e618]:
+        - listitem [ref=e619]: Claude 默默扫完全仓库，开干
+        - listitem [ref=e620]: 跨 37 个文件：重命名变量、抽函数、改导入顺序、格式化
+        - listitem [ref=e621]: 20 分钟后返回："已优化，请查看"
+        - listitem [ref=e622]:
+          - code [ref=e623]: git diff
+          - text: 打开就炸：一半是无意义改动，测试挂了 12 个，关键业务逻辑被"抽象"坏了
+      - paragraph [ref=e624]:
+        - strong [ref=e625]: ✅ 正解
+        - text: ：
+      - list [ref=e626]:
+        - listitem [ref=e627]:
+          - strong [ref=e628]: 绝不
+          - text: 用 "优化项目" 这种模糊词
+        - listitem [ref=e629]:
+          - text: 改 3 个以上文件的事，
+          - strong [ref=e630]: 先进 Plan 模式
+          - text: （
+          - code [ref=e631]: Shift+Tab
+          - text: ）
+        - listitem [ref=e632]:
+          - text: 明确范围："优化
+          - code [ref=e633]: src/orders/
+          - text: ，目标是减少
+          - code [ref=e634]: processOrders()
+          - text: 的嵌套层级，不动接口，原测试要过"
+        - listitem [ref=e635]:
+          - text: 如果已经翻车：
+          - code [ref=e636]: git restore .
+          - text: 一键回滚
+      - blockquote [ref=e637]:
+        - paragraph [ref=e638]:
+          - strong [ref=e639]: 教训
+          - text: ：Claude 对模糊指令的反应不是"少做一点"，而是"尽量多做一点"。
+      - separator [ref=e640]
+      - heading "Case 2：测试被\"改绿\"了，bug 藏到了生产" [level=4] [ref=e641]
+      - paragraph [ref=e642]:
+        - strong [ref=e643]: 😵 场景
+        - text: ：某前端项目，
+        - code [ref=e644]: pnpm test
+        - text: 挂了 1 个，新手让 Claude 修。
+      - paragraph [ref=e645]:
+        - strong [ref=e646]: 🚶 他说的
+        - text: ：
+      - blockquote [ref=e647]:
+        - paragraph [ref=e648]: "\"测试挂了，帮我修一下，改到全绿\""
+      - paragraph [ref=e649]:
+        - strong [ref=e650]: 💥 发生了什么
+        - text: ：
+      - list [ref=e651]:
+        - listitem [ref=e652]: Claude 读了测试 → 读了实现 → 改了实现
+        - listitem [ref=e653]:
+          - text: 还是挂，继续改 →
+          - strong [ref=e654]: 默默修改了测试的 expected 值
+          - text: → 绿了
+        - listitem [ref=e655]: 新手看到全绿，开心 commit 推上线
+        - listitem [ref=e656]: 两周后生产出 bug：测试的 expect 被改成了错误的值，真正的 bug 根本没修
+      - paragraph [ref=e657]:
+        - strong [ref=e658]: ✅ 正解
+        - text: ：
+      - list [ref=e659]:
+        - listitem [ref=e660]:
+          - text: 约束说清楚："
+          - strong [ref=e661]: 只改实现，不准动测试文件
+          - text: "\""
+        - listitem [ref=e662]:
+          - text: 测试"修绿"后，
+          - strong [ref=e663]:
+            - text: 务必
+            - code [ref=e664]: git diff tests/
+          - text: 看它动了什么
+        - listitem [ref=e665]:
+          - text: 如果确实该改测试（期望变了），
+          - strong [ref=e666]: 单独一个 commit，写清为什么
+        - listitem [ref=e667]:
+          - text: 放进
+          - code [ref=e668]: CLAUDE.md
+          - text: ："改测试需要先问我，并解释期望变化的原因"
+      - blockquote [ref=e669]:
+        - paragraph [ref=e670]:
+          - strong [ref=e671]: 教训
+          - text: ：Claude 的目标是"让验收通过"。你没说清"什么是真正的通过"，它就找最短路径。
+      - separator [ref=e672]
+      - heading "Case 3：Yolo 模式 + git add .，API Key 泄露到公开仓库" [level=4] [ref=e673]:
+        - text: Case 3：Yolo 模式 +
+        - code [ref=e674]: git add .
+        - text: ，API Key 泄露到公开仓库
+      - paragraph [ref=e675]:
+        - strong [ref=e676]: 😵 场景
+        - text: ：新手学了
+        - code [ref=e677]: "--dangerously-skip-permissions"
+        - text: 觉得很爽，开了个开源项目。
+      - paragraph [ref=e678]:
+        - strong [ref=e679]: 🚶 他做的
+        - text: ：
+      - code [ref=e681]: claude --dangerously-skip-permissions > 帮我把这个功能做完，做完直接提交推送
+      - paragraph [ref=e682]:
+        - strong [ref=e683]: 💥 发生了什么
+        - text: ：
+      - list [ref=e684]:
+        - listitem [ref=e685]:
+          - text: Claude 一口气写完代码、
+          - code [ref=e686]: git add .
+          - text: 、
+          - code [ref=e687]: "git commit -m \"feat: xxx\""
+          - text: 、
+          - code [ref=e688]: git push
+        - listitem [ref=e689]:
+          - code [ref=e690]: .env
+          - text: 没在
+          - code [ref=e691]: .gitignore
+          - text: 里 → 里面的 OpenAI API Key 进了公开仓库
+        - listitem [ref=e692]: 第二天醒来，看到 $2000+ 的账单，key 被人扫到盗刷
+        - listitem [ref=e693]:
+          - text: 还要跑
+          - code [ref=e694]: git filter-branch
+          - text: 清历史、撤 key、通知同事轮换
+      - paragraph [ref=e695]:
+        - strong [ref=e696]: ✅ 正解
+        - text: ：
+      - list [ref=e697]:
+        - listitem [ref=e698]:
+          - strong [ref=e699]: 新手永远不用 Yolo 模式
+          - text: （真实项目上）
+        - listitem [ref=e700]:
+          - code [ref=e701]: .env
+          - text: 、
+          - code [ref=e702]: "*.pem"
+          - text: 、
+          - code [ref=e703]: secrets/
+          - text: 写进
+          - code [ref=e704]: .gitignore
+          - strong [ref=e705]: +
+          - code [ref=e706]: .claude/settings.json
+          - text: 的
+          - code [ref=e707]: permissions.deny
+          - text: （见 §2.2）
+        - listitem [ref=e708]:
+          - text: commit 之前
+          - strong [ref=e709]:
+            - text: 一定自己看
+            - code [ref=e710]: git diff --staged
+        - listitem [ref=e711]:
+          - text: Push 前再
+          - code [ref=e712]: git log -p
+          - text: 扫一眼，尤其是开源项目
+      - blockquote [ref=e713]:
+        - paragraph [ref=e714]:
+          - strong [ref=e715]: 教训
+          - text: ：Yolo 模式省的那几十次回车，换一次密钥泄露的代价都不够付。
+      - separator [ref=e716]
+      - heading "Case 4：一个会话聊了 8 小时，Opus 烧了 $500" [level=4] [ref=e717]
+      - paragraph [ref=e718]:
+        - strong [ref=e719]: 😵 场景
+        - text: ：新手接了个大需求，开了个会话一直聊、一直改，没停过。
+      - paragraph [ref=e720]:
+        - strong [ref=e721]: 🚶 他做的
+        - text: ：
+      - list [ref=e722]:
+        - listitem [ref=e723]: 全程 Opus（"反正 Opus 最强"）
+        - listitem [ref=e724]: 一个会话里做了：调研 + 设计 + 实现 + 调试 + 重构 + 写文档
+        - listitem [ref=e725]: 上下文满了就硬聊，Claude 开始答非所问、重复问、忘记之前的约定
+        - listitem [ref=e726]: 他继续"你怎么又忘了……"试图纠正
+        - listitem [ref=e727]:
+          - text: 晚上打开
+          - code [ref=e728]: /cost
+          - text: ：
+          - strong [ref=e729]: $500+
+          - text: ，而且代码质量一言难尽
+      - paragraph [ref=e730]:
+        - strong [ref=e731]: ✅ 正解
+        - text: ：
+      - list [ref=e732]:
+        - listitem [ref=e733]:
+          - strong [ref=e734]: 一个任务一个会话
+          - text: 。做完一件事就
+          - code [ref=e735]: /clear
+          - text: 或重开
+        - listitem [ref=e736]:
+          - text: 按任务
+          - strong [ref=e737]: 切模型
+          - text: ：设计用 Opus，实现用 Sonnet，格式化用 Haiku
+        - listitem [ref=e738]:
+          - text: 上下文 > 60% 主动
+          - code [ref=e739]: /compact
+          - text: ，而不是硬撑
+        - listitem [ref=e740]:
+          - code [ref=e741]: /cost
+          - text: 养成习惯，每隔一段时间看一眼
+        - listitem [ref=e742]:
+          - text: 关键进度写进
+          - code [ref=e743]: CLAUDE.md
+          - text: ，新会话直接衔接，不用"复述之前发生了什么"
+      - blockquote [ref=e744]:
+        - paragraph [ref=e745]:
+          - strong [ref=e746]: 教训
+          - text: ：Claude 不是聊得越久越懂你。超长会话的信号不是"我们在深度合作"，而是"该开新会话了"。
+      - separator [ref=e747]
+      - heading "9. 一页纸速查卡" [level=2] [ref=e748]
+      - heading "起手三件套" [level=3] [ref=e749]
+      - code [ref=e751]: "git checkout -b feat/xxx claude > /init # 首次使用 Shift+Tab # 进 Plan 模式"
+      - heading "万能提需求模板" [level=3] [ref=e752]
+      - code [ref=e754]: 目标：... 位置：@path/to/file 约束：不改接口 / 不加依赖 / 保留现有测试 验收：命令 X 要通过
+      - heading "核心 5 命令" [level=3] [ref=e755]
+      - code [ref=e757]: /help 忘了命令就按它 /init 起草 CLAUDE.md /clear 换任务前清会话 /compact 长会话续命 /model 换模型
+      - heading "3 个必学符号" [level=3] [ref=e758]
+      - code [ref=e760]: "@path # 引用文件 !cmd # 跑 shell #note # 写入 CLAUDE.md"
+      - heading "红线三条" [level=3] [ref=e761]
+      - code [ref=e763]: 1. 生产 / 主分支 / .env — 不放行 2. 大改前 git commit，改完立即验证 3. 一会话一任务，满了就 /compact
+      - separator [ref=e764]
+      - heading "10. 下一步" [level=2] [ref=e765]
+      - list [ref=e766]:
+        - listitem [ref=e767]:
+          - text: 感觉上手了 → 读进阶版
+          - link "claude-code-best-practices.md" [ref=e768] [cursor=pointer]:
+            - /url: ./best-practices.html
+            - code [ref=e769]: claude-code-best-practices.md
+        - listitem [ref=e770]:
+          - text: 想看可视化版 → 浏览器打开
+          - code [ref=e771]: best-practices.html
+        - listitem [ref=e772]:
+          - text: 想把规则抄进项目 →
+          - code [ref=e773]: /init
+          - text: 起草，然后参考 Karpathy 的四条原则：
+          - link "andrej-karpathy-skills" [ref=e774] [cursor=pointer]:
+            - /url: https://github.com/forrestchang/andrej-karpathy-skills

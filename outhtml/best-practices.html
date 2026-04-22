@@ -450,16 +450,21 @@ Claude Code 默认会请求确认高风险操作，但养成习惯：
 
 | 模型 | 擅长 | 适用场景 |
 |---|---|---|
-| **Opus** | 复杂推理、架构设计、大范围重构 | Plan 阶段、疑难 bug、跨模块设计 |
-| **Sonnet** | 日常编码、平衡性价比 | 功能开发、代码审查、常规修复 |
+| **claude-opus-4-6** | 复杂推理、架构设计、大范围重构 | Plan 阶段、疑难 bug、跨模块设计 |
+| **claude-sonnet-4-6** | 日常编码、平衡性价比 | 功能开发、代码审查、常规修复 |
 | **Haiku** | 快速响应、简单任务 | 子代理调研、格式化、简单查询 |
+| **glm-5.1** | 中文理解、低延迟 | 中文项目、轻量场景 |
+| **GPT-5.4** | 通用推理、多模态 | 跨模态任务、特定场景备选 |
 
 ```bash
-# 日常开发用 Sonnet
-claude --model sonnet
+# 启动时指定
+claude --model claude-sonnet-4-6
 
-# 复杂设计切 Opus
-# 会话中用 /model 切换
+# 会话中用 /model 切换（支持模糊匹配）
+/model claude-sonnet-4-6   # 日常开发
+/model claude-opus-4-6     # 复杂架构/疑难 bug
+/model glm-5.1             # GLM 模型
+/model GPT-5.4             # GPT 模型
 ```
 
 > 用 Opus 来修 typo 是浪费；用 Haiku 来做架构设计是勉强。匹配任务复杂度。
@@ -471,7 +476,7 @@ claude --model sonnet
 > **后果**：月底 `/cost` 一看账单，是预期的 5-8 倍。  
 > **正解**：全局 `~/.claude/settings.json` 设默认为 Sonnet：
 > ```json
-> { "model": "claude-sonnet-4-5" }
+> { "model": "claude-sonnet-4-6" }
 > ```
 > 复杂架构/疑难 bug 时临时 `/model opus`；子代理里跑 explore/调研用 Haiku。
 
