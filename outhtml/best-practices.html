@@ -470,17 +470,6 @@ claude --model glm-5.1
 
 > 用 Opus 来修 typo 是浪费；用 Haiku 来做架构设计是勉强。匹配任务复杂度。
 
-### 🔥 反面案例：默认 Opus 聊出高额账单
-
-> **场景**：从没配过 `/model`，每次启动都是 Opus；"加个注释"、"帮我看看这行代码"也走 Opus。  
-> **翻车点**：Opus 输入 token ≈ Sonnet 的 5×，长会话又不 `/compact`，成本指数级累积。  
-> **后果**：月底 `/cost` 一看账单，是预期的 5-8 倍。  
-> **正解**：全局 `~/.claude/settings.json` 设默认为 Sonnet：
-> ```json
-> { "model": "claude-sonnet-4-6" }
-> ```
-> 复杂架构/疑难 bug 时临时 `/model opus`；子代理里跑 explore/调研用 Haiku。
-
 ---
 
 ## 速查：反模式清单
