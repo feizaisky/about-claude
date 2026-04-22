@@ -1,3 +1,24 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Claude Code 日常使用最佳实践</title>
+  <link rel="stylesheet" href="doc.css"/>
+</head>
+<body>
+  <div class="layout">
+    <nav class="sidebar">
+      <a class="back" href="../index.html">← About Claude</a>
+      <div class="sidebar-title">目录</div>
+      <ul id="toc"></ul>
+    </nav>
+    <main class="main">
+      <article id="content" class="article"><div class="loading">加载中…</div></article>
+    </main>
+  </div>
+
+  <script id="md-content" type="text/markdown">
 # Claude Code 日常使用最佳实践
 
 > **你的 AI Coding 效果不好，有可能是工具、技能、插件太多。**
@@ -470,3 +491,69 @@ claude --model sonnet
 - [ ] Yolo 模式用在真实项目上
 - [ ] 没配 `.claude/settings.json` 的 `permissions.deny`，`.env`/密钥可能被 Claude 读取
 - [ ] 会话超长不 /compact，效果越来越差
+</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked@12/marked.min.js"></script>
+  <script>
+    (function () {
+      var mdEl = document.getElementById('md-content');
+      var md = mdEl.textContent.replace(/^\s+/, '');
+      marked.setOptions({ gfm: true, breaks: false });
+      var article = document.getElementById('content');
+      article.innerHTML = marked.parse(md);
+
+      article.querySelectorAll('a[href]').forEach(function (a) {
+        var href = a.getAttribute('href');
+        if (!href) return;
+        if (href.indexOf('claude-code-best-practices.md') !== -1) {
+          href = href.replace('claude-code-best-practices.md', 'best-practices.html');
+        } else if (href.indexOf('claude-code-cheatsheet.md') !== -1) {
+          href = href.replace('claude-code-cheatsheet.md', 'cheatsheet.html');
+        } else if (/(^|\/)README\.md($|#)/.test(href)) {
+          href = '../index.html';
+        }
+        a.setAttribute('href', href);
+      });
+
+      function slugify(t) {
+        return t.toLowerCase()
+          .replace(/[^\w\u4e00-\u9fa5\s-]/g, '')
+          .trim()
+          .replace(/\s+/g, '-');
+      }
+      article.querySelectorAll('h1, h2, h3, h4').forEach(function (h) {
+        if (!h.id) h.id = slugify(h.textContent);
+      });
+
+      var toc = document.getElementById('toc');
+      var h2s = Array.prototype.slice.call(article.querySelectorAll('h2'))
+        .filter(function (h) { return h.textContent.trim() !== '目录'; });
+      h2s.forEach(function (h) {
+        var li = document.createElement('li');
+        var a = document.createElement('a');
+        a.href = '#' + h.id;
+        a.textContent = h.textContent;
+        li.appendChild(a);
+        toc.appendChild(li);
+      });
+
+      var tocLinks = toc.querySelectorAll('a');
+      var headings = h2s;
+      function sync() {
+        if (!headings.length) return;
+        var y = window.scrollY + 120;
+        var idx = 0;
+        for (var i = 0; i < headings.length; i++) {
+          if (headings[i].offsetTop <= y) idx = i;
+        }
+        tocLinks.forEach(function (a, i) { a.classList.toggle('active', i === idx); });
+      }
+      window.addEventListener('scroll', sync, { passive: true });
+      sync();
+
+      var h1 = article.querySelector('h1');
+      if (h1) document.title = h1.textContent.trim() + ' · About Claude';
+    })();
+  </script>
+</body>
+</html>

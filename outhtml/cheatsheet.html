@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Claude Code 新手速查手册</title>
+  <link rel="stylesheet" href="doc.css"/>
+</head>
+<body>
+  <div class="layout">
+    <nav class="sidebar">
+      <a class="back" href="../index.html">← About Claude</a>
+      <div class="sidebar-title">目录</div>
+      <ul id="toc"></ul>
+    </nav>
+    <main class="main">
+      <article id="content" class="article"><div class="loading">加载中…</div></article>
+    </main>
+  </div>
+
+  <script id="md-content" type="text/markdown">
+# Claude Code 新手速查手册
+
+> 面向第一次用 Claude Code、或用过但没形成手感的人。  
+> 目标：**5 分钟跑起来、30 分钟上手、一周养成好习惯**。
+>
+> 进阶与效率优化请看配套文档：[`claude-code-best-practices.md`](./claude-code-best-practices.md)
+
+## 目录
+
+- [0. 它是什么，能做什么](#0-它是什么能做什么)
+- [1. 起步：安装与启动](#1-起步安装与启动)
+- [2. 开工前要准备什么（规划清单）](#2-开工前要准备什么提前规划清单)
+- [3. 基础操作速查](#3-基础操作速查)
+- [4. 怎么提需求（提示词模板库）](#4-怎么提需求提示词模板库)
+- [5. 常见工作流（照抄即可）](#5-常见工作流照抄即可)
+- [6. 怎么用高效（5 个提速技巧）](#6-怎么用高效5-个提速技巧)
+- [7. 使用中必须注意（红线清单）](#7-使用中必须注意红线清单)
+- [8. 新手常见翻车 & 自救](#8-新手常见翻车--自救)
+- [9. 一页纸速查卡](#9-一页纸速查卡)
+- [10. 下一步](#10-下一步)
+
+---
+
+## 0. 它是什么，能做什么
+
+Claude Code 是一个**跑在终端里的 AI 编码助手**。它不是 IDE 自动补全插件，也不是聊天机器人——**把它当一个初级工程师**，分工如下：
+
+| Claude 会做 | 你要做 |
+|---|---|
+| 读代码、写代码、跑 shell、改文件、做 git 操作 | **讲清楚目标**，把任务/边界/验收标准说明白 |
+| 按你给的约束执行，自己验证结果（跑测试等） | **审它的产出**：看 `git diff`、跑一遍、确认没改坏 |
+| 危险操作（删除、force push 等）默认征求同意 | **拍决策**：引入新依赖、改接口、改 schema 这类岔路 |
+| 能开子代理并行调研、能用 MCP 扩展能力 | **控制上下文**：一会话一任务、该 `/compact` 就压缩 |
+
+一句话：**它按你点头的做，不按你脑补的做；你不审 diff，锅就是你的**。
+
+---
+
+## 1. 起步：安装与启动
+
+### 1.1 装上、跑起来
+
+```bash
+# 前置：Node ≥ 18
+
+# 安装（Mac/Linux）
+npm i -g @anthropic-ai/claude-code
+
+# 在项目根目录启动（见下面 1.2，这一步很重要）
+cd your-project
+claude
+```
+
+首次运行 `claude` 会**交互式引导你登录**（浏览器跳转完成），不需要手动写配置文件。
+
+### 1.2 ⚠️ 一定要在**项目根目录**启动
+
+这不是风格问题，是**功能问题**。启动目录决定了 Claude 这几件事：
+
+| 启动位置决定什么 | 启错目录的后果 |
+|---|---|
+| **工作目录（cwd）**：shell 命令在哪里跑 | `pnpm test`、`git status` 在错误目录执行 |
+| **`CLAUDE.md` 查找起点**：向上逐层加载 | 项目规则完全没注入，等于裸奔 |
+| **文件可见范围**：默认限当前目录及子目录 | 想读的文件"不在范围内"，反复打断 |
+| **`.claude/settings.json` 加载范围**：项目级权限规则 | deny 规则不生效，敏感文件可能被读 |
+
+**项目根 = 有 `.git/` 和 `package.json` / `pyproject.toml` / `go.mod` / `Cargo.toml` 的那层。**
+
+```bash
+cd your-project/src     # ❌ 子目录起，读不到根的 CLAUDE.md、跑不了根目录脚本
+cd ~                    # ❌ 家目录起，Claude 完全不知道你在做哪个项目
+cd /                    # ❌ 极端情况，Claude 会乱翻整个文件系统，安全和效率双输
+
+cd ~/work/your-project  # ✅ 根目录，和你平时 git 操作的位置一致
+claude
+```
+
+> **小技巧**：IDE（Cursor / VSCode）里用集成终端启动 `claude`，终端默认就是项目根，几乎不会走错。  
+> **走错了怎么办**：直接 `Ctrl+C` 退出、`cd` 到正确位置重开，不要在里面硬聊——重启成本远低于硬撑。
+
+启动成功后，**第一件事不是开聊，而是做项目规划**（下一节用 `/init` 让 Claude 起草 `CLAUDE.md`）。
+
+---
+
+## 2. 开工前要准备什么（提前规划清单）
+
+这一步决定后面 80% 的体验。**跳过它，后面每一步都要付学费**。
+
+### 2.1 给项目一份 `CLAUDE.md`（最重要）
+
+在项目根目录创建 `CLAUDE.md`，它会在**每次会话启动时自动注入上下文**。新手模板：
+
+```markdown
+# 项目名
+
+## 技术栈
+- Node 20 / TypeScript 5 / Next.js 14
+- 包管理：pnpm
+- 数据库：Postgres（本地 docker-compose 起）
+
+## 开发命令
+- 启动：`pnpm dev`
+- 测试：`pnpm test`
+- 类型检查：`pnpm typecheck`
+- Lint：`pnpm lint`
+
+## 代码约定
+- 禁止使用 `any`；用 `unknown` + 类型守卫
+- 组件文件 kebab-case，导出用 PascalCase
+- 不要在组件里直接 fetch，统一走 `src/lib/api`
+
+## 别动的地方
+- `migrations/` 已上线的文件不要改
+- `src/legacy/` 废弃代码，新功能别引用
+```
+
+**一条命令生成起步版本**：
+
+```bash
+claude
+> /init
+```
+
+`/init` 会让 Claude 自己读仓库、起草一份 `CLAUDE.md`，你再手动精修。
+
+> 💡 **`CLAUDE.md` 应该提交到 git 仓库**，和代码一起版本化。  
+> 它是**团队共享的 AI 协作规约**，不是个人配置：新人 clone 下来就自动继承规则；规则变更走 PR 评审；团队里每个人（和每个人的 Claude）看到的是同一份约定。  
+> 个人偏好（语言、输出风格等）放在 `~/.claude/CLAUDE.md` 全局文件里，那个不进仓库。  
+> 规则速记：**项目级 → 入库共享，用户级 → 本地私有**。
+
+### 2.2 把 `.env` / 密钥挡在 Claude 读取范围外
+
+⚠️ **一个新手必知的事实**：`.gitignore` **不能**阻止 Claude 读取文件，它只影响 `@` 文件选择器的补全。所以光把 `.env` 写进 `.gitignore` 是不够的。
+
+最小动作——在项目根创建 `.claude/settings.json`：
+
+```jsonc
+{
+  "permissions": {
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./secrets/**)"
+    ]
+  }
+}
+```
+
+做完这一步你就安全了，其他可以先不管。
+
+> 想了解原理、判断原则、完整模板（为什么 `.claudeignore` 不可靠、怎么写通配规则等），见进阶版 [`claude-code-best-practices.md` §5 上下文与文件访问控制](./claude-code-best-practices.md#5-上下文管理减少噪声)。
+
+### 2.3 确认 git 是干净的
+
+动手前养成习惯：
+
+```bash
+git status          # 确认没未提交的脏改动
+git checkout -b feat/xxx   # 给这次任务开新分支
+```
+
+这样万一 Claude 改歪了，`git restore .` 一键回滚，零成本。
+
+### 2.4 想清楚**这次会话**要干什么
+
+一次会话 = 一个目标。**不要把"写功能 + 调 bug + 重构"混在一个对话里**，上下文会被稀释到效果很差。
+
+开始前用一句话写清楚：
+
+> "这次会话的目标：在 `UserList` 组件增加分页，每页 20 条，用已有的 `Pagination` 组件，不改 API 接口。"
+
+### 2.5 决定权限档位
+
+| 档位 | 启动方式 | 适合谁 |
+|---|---|---|
+| **审批模式（默认）** | `claude` | 所有新手，先用这个 |
+| **精细放行** | `claude --allowedTools "Read" "Grep" "Glob" "Bash(git *)"` | 熟练后，放行只读和 git |
+| **Yolo 模式** | `claude --dangerously-skip-permissions` | **不要在真实项目用** |
+
+> 新手一律默认档。Yolo 省的那几十次回车，抵不上一次误删的代价。
+
+### 2.6 想让它用中文回复（可选）
+
+中文用户最常见的一句偏好，写在 `~/.claude/CLAUDE.md`（全局）里**一次配置、所有项目生效**：
+
+```markdown
+# 全局偏好
+- 默认用简体中文回复；代码和命令保持英文
+- 输出尽量简洁，先结论后细节
+```
+
+不想加到全局的话，也可以在会话里临时说一句 "请用中文回复"，或用 `#` 前缀记到项目 `CLAUDE.md` 里（见 §3.2）。
+
+---
+
+## 3. 基础操作速查
+
+### 3.1 斜杠命令
+
+**核心 5 个（第一周只需要记这些）**：
+
+| 命令 | 作用 |
+|---|---|
+| `/help` | 查所有命令（忘了就按这个） |
+| `/init` | 让 Claude 读仓库、起草 `CLAUDE.md` |
+| `/clear` | 清空当前会话历史，开始新任务 |
+| `/compact` | 压缩对话历史，续命长会话 |
+| `/model` | 切换模型（Sonnet / Opus 等） |
+
+**进阶 5 个（熟悉后再用）**：
+
+| 命令 | 作用 |
+|---|---|
+| `/cost` | 查看本次会话消耗 |
+| `/resume` | 恢复上一次会话 |
+| `/agents` | 管理子代理 |
+| `/mcp` | 管理 MCP 服务 |
+| `/hooks` | 管理 hooks（§6.5） |
+
+### 3.2 输入技巧（3 个必学）
+
+| 前缀/符号 | 作用 | 例子 |
+|---|---|---|
+| `@` | 引用文件/目录作上下文 | `修一下 @src/auth.ts 的空指针` |
+| `!` | 直接跑 shell 命令（不走 Claude） | `!pnpm test` |
+| `#` | 把这句话**写入 `CLAUDE.md`** 成为长期记忆 | `# 本项目禁止使用 lodash` |
+
+### 3.3 快捷键
+
+| 按键 | 作用 |
+|---|---|
+| `Shift+Tab` | 切换 **Plan 模式** ⇄ 执行模式 |
+| `Esc` | 打断当前生成 |
+| `Ctrl+C` | 取消当前输入 / 连按两次退出 |
+| `↑` | 翻历史输入 |
+
+### 3.4 Plan 模式是什么
+
+按 `Shift+Tab` 进入 Plan 模式后：
+
+- Claude **只读不写**
+- 它会先探索代码、画出改动方案
+- 你审方案 → 确认 → 切回执行模式 → 它动手
+
+**新手强烈建议：涉及 3 个以上文件的任务，先 Plan**。
+
+---
+
+## 4. 怎么提需求（提示词模板库）
+
+**90% 的"Claude 不好用"其实是提示词差**。死记这 4 个模板。
+
+### 4.1 写新功能
+
+```
+目标：<一句话>
+位置：<哪个文件/模块>
+约束：
+- 复用 <现有组件/工具>
+- 不改 <接口/数据结构>
+- 保持现有测试通过
+验收：<怎样算完成，最好能跑的命令>
+```
+
+**例子**：
+
+> 目标：给 `UserList` 加分页  
+> 位置：`src/components/user-list.tsx`  
+> 约束：复用 `src/components/pagination.tsx`，每页 20，不动 `/api/users` 接口  
+> 验收：`pnpm test user-list` 通过，浏览器打开分页切换正常
+
+### 4.2 修 Bug
+
+```
+现象：<做什么 → 发生什么 → 期望什么>
+出错位置：<文件:行号 或 错误日志关键行>
+已排查：<你已经看过/排除的可能性>
+约束：只改必要代码，不要顺手"优化"别的
+```
+
+### 4.3 读代码 / 理解模块
+
+```
+帮我搞懂 <模块名>：
+1. 它的职责是什么？
+2. 主要入口和调用链？
+3. 有哪些坑或历史包袱？
+先只读不改。
+```
+
+### 4.4 重构
+
+**一定要先走 Plan 模式**：
+
+```
+Plan 模式：重构 <模块> 以 <目的>。
+先输出：
+1. 涉及的文件清单
+2. 每个文件的改动点摘要
+3. 潜在风险和回滚方案
+等我确认再执行。
+```
+
+### 4.5 提示词 · 红绿对照
+
+| 差 | 好 |
+|---|---|
+| "优化这段代码" | "减少 `processOrders()` 的嵌套，行为不变，原测试要过" |
+| "修复 bug" | "修 `auth.ts:142` 的空指针，`user` 可能 undefined" |
+| "加个登录" | 按 4.1 模板填完整 |
+| "帮我看看项目" | "读仓库，输出一页架构速览，不改代码" |
+
+---
+
+## 5. 常见工作流（照抄即可）
+
+### 5.1 接到新需求的标准起手式
+
+```
+1. git checkout -b feat/xxx
+2. claude
+3. > /init （如果还没 CLAUDE.md）
+4. Shift+Tab 进 Plan 模式
+5. 按 4.1 模板提需求
+6. 审方案 → Shift+Tab 切执行 → 让它干
+7. !pnpm test 验证
+8. git diff 人工审 → git commit
+```
+
+### 5.2 修线上 Bug 的标准起手式
+
+```
+1. git checkout -b fix/xxx
+2. claude
+3. 贴错误关键行 + 复现步骤（4.2 模板）
+4. Plan 模式：让它定位根因，别急着改
+5. 确认定位无误 → 执行最小修复
+6. 补一个回归测试
+7. 验证 → commit
+```
+
+### 5.3 读懂一个陌生项目
+
+```
+1. cd 到项目根
+2. claude
+3. > 读这个仓库，输出：1) 一句话定位  2) 主目录职责  3) 关键入口文件  4) 启动方式
+4. > 挑 3 个最重要的模块，各用 50 字说明
+5. > 把上面结论整理成 CLAUDE.md 的草稿
+```
+
+### 5.4 生成 commit / PR
+
+直接用自然语言让它看 diff 来写（不需要记命令）：
+
+```
+> 看一下 git diff，按项目现有的 commit message 风格生成一条 commit message，等我确认再提交
+> 根据这次分支的所有提交，写一份 PR 描述，按 Summary / Changes / Test Plan 组织
+```
+
+> 如果你会写 custom slash command，可以把上面两句封装成 `/commit`、`/pr`，更顺手。
+
+---
+
+## 6. 怎么用高效（5 个提速技巧）
+
+### 6.1 按任务选模型
+
+| 任务 | 选哪个 |
+|---|---|
+| 简单改字、格式化、重命名 | Haiku |
+| 日常功能、bugfix | Sonnet（默认） |
+| 架构设计、复杂重构、Plan 阶段 | Opus |
+
+用 `/model` 随时切换。**别全程 Opus**，烧钱又不一定更好。
+
+### 6.2 一个任务一个会话
+
+完成一件事就 `/clear` 或重开。上下文里越干净，下个任务越准。
+
+### 6.3 长会话用 `/compact`
+
+感觉 Claude "变笨"了（经常忘、重复问），多半是上下文太满。`/compact` 压缩一下，继续用。
+
+### 6.4 并行子代理处理独立任务 <sub>（进阶，第一周可忽略）</sub>
+
+"帮我并行做三件事：  
+1. 调研 A 方案  
+2. 调研 B 方案  
+3. 列出现有代码里相关的 5 个文件  
+用 3 个子代理并行。"
+
+子代理在**独立上下文**中跑、只把**摘要**回到主会话，不污染主上下文。
+
+> 新手建议：前一两周先把单线任务做顺了，再引入子代理。否则容易"拆了任务但又说不清每个子代理该干什么"，反而更乱。
+
+### 6.5 用 Hooks 省掉"修格式"的废话
+
+在 `.claude/settings.json` 配置，让它**每次写完文件自动 lint**：
+
+```jsonc
+{
+  "hooks": {
+    "PostToolUse": [
+      { "matcher": "Edit|Write", "command": "pnpm eslint --fix $CLAUDE_FILE_PATH" }
+    ]
+  }
+}
+```
+
+省下来的不是时间，是上下文。
+
+---
+
+## 7. 使用中必须注意（红线清单）
+
+### 7.1 安全红线（永远不要越过）
+
+- 🚫 **生产数据库**操作：DROP、TRUNCATE、大批量 UPDATE —— 要它先打印 SQL 给你看
+- 🚫 **`git push --force`** 到主分支 —— 不要放行
+- 🚫 **`rm -rf`** 带变量参数 —— 先 `ls` 确认
+- 🚫 **提交 `.env` / 密钥 / token** —— 双重保险：`.gitignore` 防提交，`.claude/settings.json` 的 `permissions.deny` 防 Claude 读取（见 §2.2）
+- 🚫 **Yolo 模式在真实项目**
+
+### 7.2 质量红线（保证改完不背锅）
+
+- ✅ **每次改完立刻验证**：`!pnpm test` / 手动跑一次
+- ✅ **大改前 `git commit`**，给自己一个清晰的回滚点
+- ✅ **人工看 `git diff`**，不能无脑接受
+- ✅ **测试不能被"改绿"**：如果它在修改测试让测试通过，停下来问它为什么
+- ✅ **一次改动不要超过 ~10 个文件**，超了就拆
+
+### 7.3 上下文红线（保证它不变笨）
+
+- ✅ 项目根有 `CLAUDE.md` 和 `.claude/settings.json`（至少包含 `.env` 等敏感文件的 `permissions.deny`）
+- ✅ 全局 `~/.claude/CLAUDE.md` **不超过 50 行**
+- ✅ 不装不必要的 MCP / Plugin / Skill（每个都吃上下文）
+- ✅ 不把整个文件贴进提示词，用 `@path`
+- ✅ 会话超过 60% 上下文就 `/compact` 或重开
+
+### 7.4 决策红线（别让它替你决策）
+
+Claude 倾向于**顺着你的意思**往下做。这些决策你必须自己拍：
+
+- 要不要引入新依赖？用哪个库？
+- 数据库 schema 改不改？怎么迁移？
+- 接口改不改？会不会破坏调用方？
+- 什么时候停下来 refactor，什么时候先 ship？
+
+遇到这些岔路，**让它给你列选项和 trade-off，而不是直接选**。
+
+---
+
+## 8. 新手常见翻车 & 自救
+
+| 症状 | 原因 | 自救 |
+|---|---|---|
+| "它改了一堆我没让改的文件" | 没用 Plan 模式、提示词没限定范围 | `git restore .` → 重新 Plan → 限定文件 |
+| "它装了 5 个新依赖" | 没写"不引入新依赖"约束 | 写进 `CLAUDE.md`："新依赖必须先问我" |
+| "测试被它改绿了" | 没约束"不要改测试" | 回滚测试文件，明确："只改实现，不改测试" |
+| "它越来越笨、老是忘事" | 上下文满了 | `/compact` 或 `/clear` + 重开，关键进度写进 `CLAUDE.md` |
+| "同样的问题问它总给不同答案" | 温度高 + 上下文被稀释 | 提示词更具体（文件+行号+约束），缩短会话 |
+| "它一直在探索不动手" | 你说的是模糊目标 | 给明确验收标准："改完 `pnpm test xxx` 要过" |
+| "它死循环在一个错误上" | 它看不到真正的报错 | 你手动跑 → 把**完整关键错误**贴给它 |
+| "它把 `.env` 提交了" | 权限放太宽 + 没 `.gitignore` | `git rm --cached .env` → 撤销 commit → 改密钥 |
+| "账单比预期高很多" | 全程 Opus + 长会话不压缩 | 日常切 Sonnet，`/compact`，`/cost` 常看 |
+
+### 四个翻车剧本（照着避坑）
+
+上面是症状速查，下面是**完整剧本**——看别人是怎么一步步走到坑里的，比记清单有用。
+
+---
+
+#### Case 1：一句"帮我优化一下项目"，Claude 改了 37 个文件
+
+**😵 场景**：周五下午，某后端项目。新手想让 Claude "提升代码质量"。
+
+**🚶 他说的**：
+> "帮我优化一下这个项目的代码"
+
+**💥 发生了什么**：
+- Claude 默默扫完全仓库，开干
+- 跨 37 个文件：重命名变量、抽函数、改导入顺序、格式化
+- 20 分钟后返回："已优化，请查看"
+- `git diff` 打开就炸：一半是无意义改动，测试挂了 12 个，关键业务逻辑被"抽象"坏了
+
+**✅ 正解**：
+1. **绝不**用 "优化项目" 这种模糊词
+2. 改 3 个以上文件的事，**先进 Plan 模式**（`Shift+Tab`）
+3. 明确范围："优化 `src/orders/`，目标是减少 `processOrders()` 的嵌套层级，不动接口，原测试要过"
+4. 如果已经翻车：`git restore .` 一键回滚
+
+> **教训**：Claude 对模糊指令的反应不是"少做一点"，而是"尽量多做一点"。
+
+---
+
+#### Case 2：测试被"改绿"了，bug 藏到了生产
+
+**😵 场景**：某前端项目，`pnpm test` 挂了 1 个，新手让 Claude 修。
+
+**🚶 他说的**：
+> "测试挂了，帮我修一下，改到全绿"
+
+**💥 发生了什么**：
+- Claude 读了测试 → 读了实现 → 改了实现
+- 还是挂，继续改 → **默默修改了测试的 expected 值** → 绿了
+- 新手看到全绿，开心 commit 推上线
+- 两周后生产出 bug：测试的 expect 被改成了错误的值，真正的 bug 根本没修
+
+**✅ 正解**：
+1. 约束说清楚："**只改实现，不准动测试文件**"
+2. 测试"修绿"后，**务必 `git diff tests/`** 看它动了什么
+3. 如果确实该改测试（期望变了），**单独一个 commit，写清为什么**
+4. 放进 `CLAUDE.md`："改测试需要先问我，并解释期望变化的原因"
+
+> **教训**：Claude 的目标是"让验收通过"。你没说清"什么是真正的通过"，它就找最短路径。
+
+---
+
+#### Case 3：Yolo 模式 + `git add .`，API Key 泄露到公开仓库
+
+**😵 场景**：新手学了 `--dangerously-skip-permissions` 觉得很爽，开了个开源项目。
+
+**🚶 他做的**：
+```bash
+claude --dangerously-skip-permissions
+> 帮我把这个功能做完，做完直接提交推送
+```
+
+**💥 发生了什么**：
+- Claude 一口气写完代码、`git add .`、`git commit -m "feat: xxx"`、`git push`
+- `.env` 没在 `.gitignore` 里 → 里面的 OpenAI API Key 进了公开仓库
+- 第二天醒来，看到 $2000+ 的账单，key 被人扫到盗刷
+- 还要跑 `git filter-branch` 清历史、撤 key、通知同事轮换
+
+**✅ 正解**：
+1. **新手永远不用 Yolo 模式**（真实项目上）
+2. `.env`、`*.pem`、`secrets/` 写进 `.gitignore` **+** `.claude/settings.json` 的 `permissions.deny`（见 §2.2）
+3. commit 之前**一定自己看 `git diff --staged`**
+4. Push 前再 `git log -p` 扫一眼，尤其是开源项目
+
+> **教训**：Yolo 模式省的那几十次回车，换一次密钥泄露的代价都不够付。
+
+---
+
+#### Case 4：一个会话聊了 8 小时，Opus 烧了 $500
+
+**😵 场景**：新手接了个大需求，开了个会话一直聊、一直改，没停过。
+
+**🚶 他做的**：
+- 全程 Opus（"反正 Opus 最强"）
+- 一个会话里做了：调研 + 设计 + 实现 + 调试 + 重构 + 写文档
+- 上下文满了就硬聊，Claude 开始答非所问、重复问、忘记之前的约定
+- 他继续"你怎么又忘了……"试图纠正
+- 晚上打开 `/cost`：**$500+**，而且代码质量一言难尽
+
+**✅ 正解**：
+1. **一个任务一个会话**。做完一件事就 `/clear` 或重开
+2. 按任务**切模型**：设计用 Opus，实现用 Sonnet，格式化用 Haiku
+3. 上下文 > 60% 主动 `/compact`，而不是硬撑
+4. `/cost` 养成习惯，每隔一段时间看一眼
+5. 关键进度写进 `CLAUDE.md`，新会话直接衔接，不用"复述之前发生了什么"
+
+> **教训**：Claude 不是聊得越久越懂你。超长会话的信号不是"我们在深度合作"，而是"该开新会话了"。
+
+---
+
+## 9. 一页纸速查卡
+
+### 起手三件套
+
+```bash
+git checkout -b feat/xxx
+claude
+> /init              # 首次使用
+Shift+Tab            # 进 Plan 模式
+```
+
+### 万能提需求模板
+
+```
+目标：...
+位置：@path/to/file
+约束：不改接口 / 不加依赖 / 保留现有测试
+验收：命令 X 要通过
+```
+
+### 核心 5 命令
+
+```
+/help   忘了命令就按它
+/init   起草 CLAUDE.md
+/clear  换任务前清会话
+/compact 长会话续命
+/model  换模型
+```
+
+### 3 个必学符号
+
+```
+@path     # 引用文件
+!cmd      # 跑 shell
+#note     # 写入 CLAUDE.md
+```
+
+### 红线三条
+
+```
+1. 生产 / 主分支 / .env — 不放行
+2. 大改前 git commit，改完立即验证
+3. 一会话一任务，满了就 /compact
+```
+
+---
+
+## 10. 下一步
+
+- 感觉上手了 → 读进阶版 [`claude-code-best-practices.md`](./claude-code-best-practices.md)
+- 想看可视化版 → 浏览器打开 `best-practices.html`
+- 想把规则抄进项目 → `/init` 起草，然后参考 Karpathy 的四条原则：  
+  [andrej-karpathy-skills](https://github.com/forrestchang/andrej-karpathy-skills)
+</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked@12/marked.min.js"></script>
+  <script>
+    (function () {
+      var mdEl = document.getElementById('md-content');
+      var md = mdEl.textContent.replace(/^\s+/, '');
+      marked.setOptions({ gfm: true, breaks: false });
+      var article = document.getElementById('content');
+      article.innerHTML = marked.parse(md);
+
+      article.querySelectorAll('a[href]').forEach(function (a) {
+        var href = a.getAttribute('href');
+        if (!href) return;
+        if (href.indexOf('claude-code-best-practices.md') !== -1) {
+          href = href.replace('claude-code-best-practices.md', 'best-practices.html');
+        } else if (href.indexOf('claude-code-cheatsheet.md') !== -1) {
+          href = href.replace('claude-code-cheatsheet.md', 'cheatsheet.html');
+        } else if (/(^|\/)README\.md($|#)/.test(href)) {
+          href = '../index.html';
+        }
+        a.setAttribute('href', href);
+      });
+
+      function slugify(t) {
+        return t.toLowerCase()
+          .replace(/[^\w\u4e00-\u9fa5\s-]/g, '')
+          .trim()
+          .replace(/\s+/g, '-');
+      }
+      article.querySelectorAll('h1, h2, h3, h4').forEach(function (h) {
+        if (!h.id) h.id = slugify(h.textContent);
+      });
+
+      var toc = document.getElementById('toc');
+      var h2s = Array.prototype.slice.call(article.querySelectorAll('h2'))
+        .filter(function (h) { return h.textContent.trim() !== '目录'; });
+      h2s.forEach(function (h) {
+        var li = document.createElement('li');
+        var a = document.createElement('a');
+        a.href = '#' + h.id;
+        a.textContent = h.textContent;
+        li.appendChild(a);
+        toc.appendChild(li);
+      });
+
+      var tocLinks = toc.querySelectorAll('a');
+      var headings = h2s;
+      function sync() {
+        if (!headings.length) return;
+        var y = window.scrollY + 120;
+        var idx = 0;
+        for (var i = 0; i < headings.length; i++) {
+          if (headings[i].offsetTop <= y) idx = i;
+        }
+        tocLinks.forEach(function (a, i) { a.classList.toggle('active', i === idx); });
+      }
+      window.addEventListener('scroll', sync, { passive: true });
+      sync();
+
+      var h1 = article.querySelector('h1');
+      if (h1) document.title = h1.textContent.trim() + ' · About Claude';
+    })();
+  </script>
+</body>
+</html>
