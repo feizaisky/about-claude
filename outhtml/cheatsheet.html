@@ -105,7 +105,7 @@ claude
 > **小技巧**：IDE（Cursor / VSCode）里用集成终端启动 `claude`，终端默认就是项目根，几乎不会走错。  
 > **走错了怎么办**：直接 `Ctrl+C` 退出、`cd` 到正确位置重开，不要在里面硬聊——重启成本远低于硬撑。
 
-> PS：用终端还是IDE看个人习惯，都有各有优劣。
+> PS：用终端还是IDE看个人习惯，各有优劣。
 
 启动成功后，**第一件事不是开聊，而是做项目规划**（下一节用 `/init` 让 Claude 起草 `CLAUDE.md`）。
 
@@ -410,22 +410,25 @@ Plan 模式：重构 <模块> 以 <目的>。
 
 ### 6.1 按任务选模型
 
-| 任务 | 选哪个 |
-|---|---|
-| 简单改字、格式化、重命名 | Haiku |
-| 日常功能、bugfix | Sonnet（默认） |
-| 架构设计、复杂重构、Plan 阶段 | Opus |
+| 模型 | 擅长 | 适用场景 |
+|---|---|---|
+| **glm-5.1** | 中文理解强、低延迟、国内Coding最强 | 中文项目、轻量场景 |
+| **GPT-5.4** | 通用推理、多模态 | 跨模态任务、复杂推理 |
+| **claude-opus-4-6** | 复杂推理、架构设计、大范围重构 | Plan 阶段、疑难 bug、跨模块设计 |
+| **claude-sonnet-4-6** | 日常编码、平衡性价比 | 功能开发、代码审查、常规修复 |
+| **Haiku** | 快速响应、简单任务 | 子代理调研、格式化、简单查询 |
 
 会话中随时用 `/model` 切换，**别全程 Opus**，烧钱又不一定更好。
 
 ```bash
-/model claude-sonnet-4-6   # 日常开发
-/model claude-opus-4-6     # 架构/复杂推理
-/model glm-5.1             # GLM 模型
+/model glm-5.1             # GLM 模型，比肩sonnet-4-6
 /model GPT-5.4             # GPT 模型
+/model claude-sonnet-4-6   # 日常开发
+/model claude-opus-4-6     # 复杂架构/疑难 bug
+/model                     # 通过交互实现，依赖setting.json中的配置映射
 ```
 
-> 也可以直接输模型名的关键词，如 `/model opus`，Claude Code 会模糊匹配。
+> 也可以直接输模型名的关键词，如 `/model sonnet`，Claude Code 会模糊匹配。
 
 ### 6.2 一个任务一个会话
 
