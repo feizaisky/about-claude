@@ -236,6 +236,21 @@ git checkout -b feat/xxx   # 给这次任务开新分支
 | `/compact` | 压缩对话历史，续命长会话 |
 | `/model` | 切换模型（Sonnet / Opus 等） |
 
+```bash
+# 切换模型
+
+# 启动时指定
+claude --model glm-5.1
+
+# 会话中用 /model 切换（支持模糊匹配）
+/model                     # 通过交互实现，依赖setting.json中的配置映射
+/model glm-5.1             # GLM 模型，比肩sonnet-4-6
+/model GPT-5.4             # GPT 模型
+/model claude-sonnet-4-6   # 日常开发
+/model claude-opus-4-6     # 复杂架构/疑难 bug
+```
+
+
 **进阶 5 个（熟悉后再用）**：
 
 | 命令 | 作用 |
